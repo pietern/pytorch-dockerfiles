@@ -58,7 +58,7 @@ if [ -n "$CUDA_VERSION" ]; then
       CUDA_REPO_PATH="ubuntu1404"
       case "$CUDA_VERSION" in
         8)
-          CUDA_REPO_PKG="cuda-repo-ubuntu1404_8.0.61-1_amd64.deb"
+          CUDA_REPO_PKG="cuda-repo-${CUDA_REPO_PATH}_8.0.61-1_amd64.deb"
           CUDA_PKG_VERSION="8-0"
           CUDA_VERSION="8.0"
         ;;
