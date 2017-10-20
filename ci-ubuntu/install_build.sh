@@ -24,7 +24,7 @@ case "$BUILD" in
     export CUDA_VERSION=8
     export CUDNN_VERSION=6
     ;;
-  linux-cuda9)
+  linux-cuda9-cudnn7)
     export CUDA_VERSION=9
     export CUDNN_VERSION=7
     ;;
