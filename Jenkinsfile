@@ -23,7 +23,9 @@ for (build in trusty_builds) {
     node("docker") {
       deleteDir()
       unstash 'dockerfiles'
-      sh "docker build --build-arg BUILD=${build_name} -f Dockerfile.trusty ."
+      dir("ci-ubuntu") {
+        sh "docker build --build-arg BUILD=${build_name} -f Dockerfile.trusty ."
+      }
     }
   }
 }
