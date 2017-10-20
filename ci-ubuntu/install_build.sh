@@ -93,6 +93,11 @@ if [ -n "$CUDA_VERSION" ]; then
       ;;
   esac
 
+  # Install NVIDIA key on 16.04 before installing packages
+  if [ "$DISTRIB_RELEASE" == "16.04" ]; then
+    apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub
+  fi
+
   CUDA_BASE_URL="https://developer.download.nvidia.com/compute/cuda/repos"
 
   pushd /tmp
