@@ -53,9 +53,13 @@ fi
 
 # Optionally install CUDA
 if [ -n "$CUDA_VERSION" ]; then
+  CUDA_BASE_URL="https://developer.download.nvidia.com/compute/cuda/repos"
+  ML_BASE_URL="https://developer.download.nvidia.com/compute/machine-learning/repos"
+
   case "$DISTRIB_RELEASE" in
     14.04)
       CUDA_REPO_PATH="ubuntu1404"
+      ML_REPO_PKG="nvidia-machine-learning-repo-${CUDA_REPO_PATH}_4.0-2_amd64.deb"
       case "$CUDA_VERSION" in
         8)
           CUDA_REPO_PKG="cuda-repo-${CUDA_REPO_PATH}_8.0.61-1_amd64.deb"
@@ -70,6 +74,7 @@ if [ -n "$CUDA_VERSION" ]; then
       ;;
     16.04)
       CUDA_REPO_PATH="ubuntu1604"
+      ML_REPO_PKG="nvidia-machine-learning-repo-${CUDA_REPO_PATH}_1.0.0-1_amd64.deb"
       case "$CUDA_VERSION" in
         8)
           CUDA_REPO_PKG="cuda-repo-${CUDA_REPO_PATH}_8.0.61-1_amd64.deb"
@@ -98,8 +103,6 @@ if [ -n "$CUDA_VERSION" ]; then
     apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub
   fi
 
-  CUDA_BASE_URL="https://developer.download.nvidia.com/compute/cuda/repos"
-
   pushd /tmp
   wget "${CUDA_BASE_URL}/${CUDA_REPO_PATH}/x86_64/${CUDA_REPO_PKG}"
   dpkg -i "$CUDA_REPO_PKG"
@@ -119,9 +122,6 @@ if [ -n "$CUDA_VERSION" ]; then
   ln -sf "/usr/local/cuda-${CUDA_VERSION}" /usr/local/cuda
 
   # Install cuDNN
-  ML_BASE_URL="https://developer.download.nvidia.com/compute/machine-learning/repos"
-  ML_REPO_PKG="nvidia-machine-learning-repo-${CUDA_REPO_PATH}_4.0-2_amd64.deb"
-
   pushd /tmp
   wget "${ML_BASE_URL}/${CUDA_REPO_PATH}/x86_64/${ML_REPO_PKG}"
   dpkg -i "$ML_REPO_PKG"
