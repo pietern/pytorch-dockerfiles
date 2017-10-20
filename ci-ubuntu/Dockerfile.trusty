@@ -1,0 +1,16 @@
+FROM ubuntu:trusty
+
+ENV DEBIAN_FRONTEND noninteractive
+
+# Install common dependencies (so that this step can be cached separately)
+ADD install_base.sh install_base.sh
+RUN chmod +x install_base.sh && ./install_base.sh && rm install_base.sh
+
+# Install build specific dependencies
+ARG BUILD
+ADD install_build.sh install_build.sh
+RUN chmod +x install_build.sh && ./install_build.sh && rm install_build.sh
+
+VOLUME ["/work"]
+WORKDIR "/work"
+CMD ["bash"]
