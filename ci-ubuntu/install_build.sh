@@ -117,6 +117,37 @@ if [ -n "$CUDA_VERSION" ]; then
 
   # Manually create CUDA symlink
   ln -sf "/usr/local/cuda-${CUDA_VERSION}" /usr/local/cuda
+
+  # Install cuDNN
+  ML_BASE_URL="https://developer.download.nvidia.com/compute/machine-learning/repos"
+  ML_REPO_PKG="nvidia-machine-learning-repo-${CUDA_REPO_PATH}_4.0-2_amd64.deb"
+
+  pushd /tmp
+  wget "${ML_BASE_URL}/${CUDA_REPO_PATH}/x86_64/${ML_REPO_PKG}"
+  dpkg -i "$ML_REPO_PKG"
+  rm -f "$ML_REPO_PKG"
+  popd
+
+  case "$CUDNN_VERSION" in
+    5)
+      CUDNN_PKG_VERSION="5.1.10-1+cuda8.0"
+    ;;
+    6)
+      CUDNN_PKG_VERSION="6.0.21-1+cuda8.0"
+    ;;
+    7)
+      CUDNN_PKG_VERSION="7.0.3.11-1+cuda${CUDA_VERSION}"
+    ;;
+    *)
+      echo "Unsupported CUDNN_VERSION: $CUDNN_VERSION"
+      exit 1
+      ;;
+  esac
+
+  apt-get update
+  $APT_INSTALL_CMD \
+    "libcudnn${CUDNN_VERSION}=${CUDNN_PKG_VERSION}" \
+    "libcudnn${CUDNN_VERSION}-dev=${CUDNN_PKG_VERSION}"
 fi
 
 # Cleanup package manager
