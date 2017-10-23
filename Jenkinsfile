@@ -24,7 +24,12 @@ for (build in trusty_builds) {
       deleteDir()
       unstash 'dockerfiles'
       dir("ci-ubuntu") {
-        sh "docker build --build-arg BUILD=${build_name} -f Dockerfile.trusty ."
+        def image = docker.build(
+          "ci.pytorch.org/caffe2/${build_name}:${env.BUILD_ID}",
+          "--build-arg BUILD=${build_name} -f Dockerfile.trusty .",
+        )
+
+        image.push()
       }
     }
   }
@@ -38,7 +43,12 @@ for (build in xenial_builds) {
       deleteDir()
       unstash 'dockerfiles'
       dir("ci-ubuntu") {
-        sh "docker build --build-arg BUILD=${build_name} -f Dockerfile.xenial ."
+        def image = docker.build(
+          "ci.pytorch.org/caffe2/${build_name}:${env.BUILD_ID}",
+          "--build-arg BUILD=${build_name} -f Dockerfile.xenial .",
+        )
+
+        image.push()
       }
     }
   }
