@@ -6,10 +6,14 @@ ENV DEBIAN_FRONTEND noninteractive
 ADD install_base.sh install_base.sh
 RUN bash ./install_base.sh && rm install_base.sh
 
-# Install build specific dependencies
+# Install build specific dependencies (e.g. CUDA)
 ARG BUILD
 ADD install_build.sh install_build.sh
 RUN bash ./install_build.sh && rm install_build.sh
+
+# Install Python dependencies (e.g. may depend on CUDA)
+ADD install_python.sh install_python.sh
+RUN bash ./install_python.sh && rm install_python.sh
 
 VOLUME ["/work"]
 WORKDIR "/work"

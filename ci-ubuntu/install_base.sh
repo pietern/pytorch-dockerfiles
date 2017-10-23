@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -ex
 
 # Install common dependencies
 apt-get update
@@ -12,6 +12,7 @@ apt-get install -y --no-install-recommends \
   ca-certificates \
   ccache \
   cmake \
+  curl \
   docbook-xml \
   docbook-xsl \
   git \
@@ -28,7 +29,7 @@ apt-get install -y --no-install-recommends \
   protobuf-compiler \
   python \
   python-dev \
-  python-pip \
+  python-setuptools \
   python-wheel \
   software-properties-common \
   wget \

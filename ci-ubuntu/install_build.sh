@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -ex
 
 APT_INSTALL_CMD="apt-get install -y --no-install-recommends"
 
