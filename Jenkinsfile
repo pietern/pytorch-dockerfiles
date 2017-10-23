@@ -1,3 +1,5 @@
+#!/usr/bin/env groovy
+
 node {
   checkout scm
   stash name: 'dockerfiles', includes: 'ci-ubuntu/'
