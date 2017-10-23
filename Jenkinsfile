@@ -19,13 +19,14 @@ def xenial_builds = [
 for (build in trusty_builds) {
   // Define in local scope; "build" will be reused across iterations
   def build_name = build
-  branches["trusty-${build}"] = {
+  def full_build_name = "trusty-${build}"
+  branches[full_build_name] = {
     node("docker") {
       deleteDir()
       unstash 'dockerfiles'
       dir("ci-ubuntu") {
         def image = docker.build(
-          "ci.pytorch.org/caffe2/${build_name}:${env.BUILD_ID}",
+          "ci.pytorch.org/caffe2/${full_build_name}:${env.BUILD_ID}",
           "--build-arg BUILD=${build_name} -f Dockerfile.trusty .",
         )
 
@@ -38,13 +39,14 @@ for (build in trusty_builds) {
 for (build in xenial_builds) {
   // Define in local scope; "build" will be reused across iterations
   def build_name = build
-  branches["xenial-${build}"] = {
+  def full_build_name = "xenial-${build}"
+  branches[full_build_name] = {
     node("docker") {
       deleteDir()
       unstash 'dockerfiles'
       dir("ci-ubuntu") {
         def image = docker.build(
-          "ci.pytorch.org/caffe2/${build_name}:${env.BUILD_ID}",
+          "ci.pytorch.org/caffe2/${full_build_name}:${env.BUILD_ID}",
           "--build-arg BUILD=${build_name} -f Dockerfile.xenial .",
         )
 
