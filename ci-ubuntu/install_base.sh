@@ -11,6 +11,7 @@ apt-get install -y --no-install-recommends \
   build-essential \
   ca-certificates \
   ccache \
+  cmake \
   docbook-xml \
   docbook-xsl \
   git \
