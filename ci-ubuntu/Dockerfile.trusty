@@ -15,6 +15,8 @@ RUN bash ./install_build.sh && rm install_build.sh
 ADD install_python.sh install_python.sh
 RUN bash ./install_python.sh && rm install_python.sh
 
-VOLUME ["/work"]
-WORKDIR "/work"
+# Install user
+ADD install_user.sh install_user.sh
+RUN bash ./install_user.sh && rm install_user.sh
+
 CMD ["bash"]
