@@ -7,31 +7,25 @@ APT_INSTALL_CMD="apt-get install -y --no-install-recommends"
 source /etc/lsb-release
 
 case "$BUILD" in
-  linux)
-    :
-    ;;
-  linux-gcc5)
+  *-gcc5)
     export GCC_VERSION=5
     ;;
-  linux-cuda)
-    export CUDA_VERSION=8
-    ;;
-  linux-cuda8-cudnn5)
+  *-cuda8-cudnn5)
     export CUDA_VERSION=8
     export CUDNN_VERSION=5
     ;;
-  linux-cuda8-cudnn6)
+  *-cuda8-cudnn6)
     export CUDA_VERSION=8
     export CUDNN_VERSION=6
     ;;
-  linux-cuda9-cudnn7)
+  *-cuda9-cudnn7)
     export CUDA_VERSION=9
     export CUDNN_VERSION=7
     ;;
-  linux-mkl)
+  *-mkl)
     export MKL=1
     ;;
-  linux-android)
+  *-android)
     export ANDROID=1
     ;;
   *)
@@ -39,7 +33,6 @@ case "$BUILD" in
     exit 1
     ;;
 esac
-
 
 # Optionally install GCC 5
 if [ -n "$GCC_VERSION" ] && [ "$GCC_VERSION" -eq 5 ]; then
