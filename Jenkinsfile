@@ -26,8 +26,9 @@ def base_images = [
   "linux-xenial",
 ]
 
-// First build base images
-parallel(base_images.collectEntries { ["Build image ${it}", build_name_to_job(it)]})
+stage("Build base images") {
+  parallel(base_images.collectEntries { ["Build image ${it}", build_name_to_job(it)]})
+}
 
 def derived_images = [
   "linux-trusty-cuda8-cudnn6",
@@ -36,5 +37,6 @@ def derived_images = [
   "linux-xenial-mkl",
 ]
 
-// Then build derived images
-parallel(derived_images.collectEntries { ["Build image ${it}", build_name_to_job(it)]})
+stage("Build derived images") {
+  parallel(derived_images.collectEntries { ["Build image ${it}", build_name_to_job(it)]})
+}
