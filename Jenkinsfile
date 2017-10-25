@@ -26,7 +26,7 @@ def base_images = [
   "linux-xenial",
 ]
 
-stage("Build base images") {
+stage("Build base") {
   parallel(base_images.collectEntries { ["Build image ${it}", build_name_to_job(it)]})
 }
 
@@ -38,6 +38,6 @@ def derived_images = [
   "linux-xenial-mkl",
 ]
 
-stage("Build derived images") {
+stage("Build derived") {
   parallel(derived_images.collectEntries { ["Build image ${it}", build_name_to_job(it)]})
 }
