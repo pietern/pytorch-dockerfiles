@@ -5,6 +5,7 @@ set -ex
 # Install common dependencies
 apt-get update
 apt-get install -y --no-install-recommends \
+  apt-transport-https \
   asciidoc \
   autoconf \
   automake \

@@ -2,59 +2,39 @@
 
 node {
   checkout scm
-  stash name: 'dockerfiles', includes: 'ci-ubuntu/'
+  stash name: 'dockerfiles', includes: '**/*'
 }
 
-def branches = [:]
-
-def trusty_builds = [
-  'linux-trusty',
-  'linux-trusty-cuda8-cudnn6',
-  'linux-trusty-mkl',
-]
-
-def xenial_builds = [
-  'linux-xenial',
-  'linux-xenial-cuda9-cudnn7',
-  'linux-xenial-mkl',
-]
-
-for (build in trusty_builds) {
-  // Define in local scope; "build" will be reused across iterations
-  def build_name = build
-  branches[build_name] = {
+def build_name_to_job(build_name) {
+  return {
     node("docker") {
       deleteDir()
       unstash 'dockerfiles'
-      dir("ci-ubuntu") {
-        def image = docker.build(
-          "ci.pytorch.org/caffe2/${build_name}:${env.BUILD_ID}",
-          "--build-arg BUILD=${build_name} -f Dockerfile.trusty .",
-        )
 
-        image.push()
-      }
+      def image = docker.build(
+        "ci.pytorch.org/caffe2/${build_name}:${env.BUILD_ID}",
+        "--build-arg BUILD=${build_name} --build-arg BUILD_ID=${env.BUILD_ID} -f ./${build_name}/Dockerfile .",
+      )
+
+      image.push()
     }
   }
 }
 
-for (build in xenial_builds) {
-  // Define in local scope; "build" will be reused across iterations
-  def build_name = build
-  branches[build_name] = {
-    node("docker") {
-      deleteDir()
-      unstash 'dockerfiles'
-      dir("ci-ubuntu") {
-        def image = docker.build(
-          "ci.pytorch.org/caffe2/${build_name}:${env.BUILD_ID}",
-          "--build-arg BUILD=${build_name} -f Dockerfile.xenial .",
-        )
+def base_images = [
+  "linux-trusty",
+  "linux-xenial",
+]
 
-        image.push()
-      }
-    }
-  }
-}
+// First build base images
+parallel(base_images.collectEntries { ["Build image ${it}", build_name_to_job(it)]})
 
-parallel branches
+def derived_images = [
+  "linux-trusty-cuda8-cudnn6",
+  "linux-trusty-mkl",
+  "linux-xenial-cuda9-cudnn7",
+  "linux-xenial-mkl",
+]
+
+// Then build derived images
+parallel(derived_images.collectEntries { ["Build image ${it}", build_name_to_job(it)]})
