@@ -1,15 +1,10 @@
 #!/usr/bin/env groovy
 
-node {
-  checkout scm
-  stash name: 'dockerfiles', includes: '**/*'
-}
-
 def build_name_to_job(build_name) {
   return {
     node("docker") {
       deleteDir()
-      unstash 'dockerfiles'
+      checkout scm
 
       def image = docker.build(
         "ci.pytorch.org/caffe2/${build_name}:${env.BUILD_ID}",
