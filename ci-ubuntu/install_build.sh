@@ -7,12 +7,9 @@ APT_INSTALL_CMD="apt-get install -y --no-install-recommends"
 source /etc/lsb-release
 
 case "$BUILD" in
-  *-gcc5)
-    export GCC_VERSION=5
+  linux-trusty)
     ;;
-  *-cuda8-cudnn5)
-    export CUDA_VERSION=8
-    export CUDNN_VERSION=5
+  linux-xenial)
     ;;
   *-cuda8-cudnn6)
     export CUDA_VERSION=8
@@ -33,16 +30,6 @@ case "$BUILD" in
     exit 1
     ;;
 esac
-
-# Optionally install GCC 5
-if [ -n "$GCC_VERSION" ] && [ "$GCC_VERSION" -eq 5 ]; then
-  add-apt-repository -y ppa:ubuntu-toolchain-r/test
-  apt-get update
-  $APT_INSTALL_CMD g++-5
-  update-alternatives \
-    --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 \
-    --slave /usr/bin/g++ g++ /usr/bin/g++-5
-fi
 
 # Optionally install CUDA
 if [ -n "$CUDA_VERSION" ]; then
@@ -141,6 +128,16 @@ if [ -n "$CUDA_VERSION" ]; then
   $APT_INSTALL_CMD \
     "libcudnn${CUDNN_VERSION}=${CUDNN_PKG_VERSION}" \
     "libcudnn${CUDNN_VERSION}-dev=${CUDNN_PKG_VERSION}"
+fi
+
+# Optionally install MKL
+if [ -n "$MKL" ]; then
+  key="https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS-2019.PUB"
+  curl "${key}" | apt-key add -
+  echo 'deb http://apt.repos.intel.com/mkl all main' | \
+    tee /etc/apt/sources.list.d/intel-mkl.list
+  apt-get update
+  $APT_INSTALL_CMD intel-mkl-64bit
 fi
 
 # Cleanup package manager

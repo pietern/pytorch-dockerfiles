@@ -8,14 +8,15 @@ node {
 def branches = [:]
 
 def trusty_builds = [
-  'linux-trusty-cuda8-cudnn5',
+  'linux-trusty',
   'linux-trusty-cuda8-cudnn6',
+  'linux-trusty-mkl',
 ]
 
 def xenial_builds = [
-  'linux-xenial-cuda8-cudnn5',
-  'linux-xenial-cuda8-cudnn6',
+  'linux-xenial',
   'linux-xenial-cuda9-cudnn7',
+  'linux-xenial-mkl',
 ]
 
 for (build in trusty_builds) {
