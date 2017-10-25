@@ -33,6 +33,7 @@ stage("Build base images") {
 def derived_images = [
   "linux-trusty-cuda8-cudnn6",
   "linux-trusty-mkl",
+  "linux-xenial-android",
   "linux-xenial-cuda9-cudnn7",
   "linux-xenial-mkl",
 ]
