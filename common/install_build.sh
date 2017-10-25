@@ -33,11 +33,6 @@ esac
 
 # Optionally install CUDA
 if [ -n "$CUDA_VERSION" ]; then
-  # Install ccache wrapper for nvcc
-  pushd /usr/local
-  ln -sf "$(which ccache)" nvcc
-  popd
-
   CUDA_BASE_URL="https://developer.download.nvidia.com/compute/cuda/repos"
   ML_BASE_URL="https://developer.download.nvidia.com/compute/machine-learning/repos"
 
@@ -105,6 +100,13 @@ if [ -n "$CUDA_VERSION" ]; then
 
   # Manually create CUDA symlink
   ln -sf "/usr/local/cuda-${CUDA_VERSION}" /usr/local/cuda
+
+  # Install ccache wrapper for nvcc
+  # Must happen after installing CUDA itself because it looks
+  # like installing CUDA nukes existing nvcc symlinks.
+  pushd /usr/local
+  ln -sf "$(which ccache)" nvcc
+  popd
 
   # Install cuDNN
   pushd /tmp
