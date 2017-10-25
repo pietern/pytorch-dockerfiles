@@ -33,6 +33,11 @@ esac
 
 # Optionally install CUDA
 if [ -n "$CUDA_VERSION" ]; then
+  # Install ccache wrapper for nvcc
+  pushd /usr/local
+  ln -sf "$(which ccache)" nvcc
+  popd
+
   CUDA_BASE_URL="https://developer.download.nvidia.com/compute/cuda/repos"
   ML_BASE_URL="https://developer.download.nvidia.com/compute/machine-learning/repos"
 

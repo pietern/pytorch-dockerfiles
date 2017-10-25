@@ -52,7 +52,6 @@ ln -sf "$(which ccache)" cc
 ln -sf "$(which ccache)" c++
 ln -sf "$(which ccache)" gcc
 ln -sf "$(which ccache)" g++
-ln -sf "$(which ccache)" nvcc
 popd
 
 # Cleanup package manager
