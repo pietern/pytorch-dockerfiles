@@ -11,7 +11,6 @@ apt-get install -y --no-install-recommends \
   automake \
   build-essential \
   ca-certificates \
-  ccache \
   cmake \
   curl \
   docbook-xml \
@@ -36,10 +35,24 @@ apt-get install -y --no-install-recommends \
   wget \
   xsltproc
 
+# Install ccache from source.
+# Needs specific branch to work with nvcc (ccache/ccache#145)
+pushd /tmp
+git clone https://github.com/colesbury/ccache -b ccbin
+pushd ccache
+./autogen.sh
+./configure --prefix=/usr/local
+make "-j$(nproc)" install
+popd
+popd
+
 # Install ccache symlink wrappers
 pushd /usr/local/bin
+ln -sf "$(which ccache)" cc
+ln -sf "$(which ccache)" c++
 ln -sf "$(which ccache)" gcc
 ln -sf "$(which ccache)" g++
+ln -sf "$(which ccache)" nvcc
 popd
 
 # Cleanup package manager
