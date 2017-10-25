@@ -104,7 +104,7 @@ if [ -n "$CUDA_VERSION" ]; then
   # Install ccache wrapper for nvcc
   # Must happen after installing CUDA itself because it looks
   # like installing CUDA nukes existing nvcc symlinks.
-  pushd /usr/local
+  pushd /usr/local/bin
   ln -sf "$(which ccache)" nvcc
   popd
 
