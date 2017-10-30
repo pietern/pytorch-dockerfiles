@@ -27,10 +27,13 @@ if [ -n "$CONDA_VERSION" ]; then
       ;;
   esac
 
+  mkdir /opt/conda
+  chown jenkins:jenkins /opt/conda
+
   pushd /tmp
   wget -q "${BASE_URL}/${CONDA_FILE}"
   chmod +x "${CONDA_FILE}"
-  ./"${CONDA_FILE}" -b -p "/opt/conda"
+  ./"${CONDA_FILE}" -b -f -p "/opt/conda"
   popd
 fi
 
