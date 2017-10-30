@@ -6,30 +6,15 @@ APT_INSTALL_CMD="apt-get install -y --no-install-recommends"
 
 source /etc/lsb-release
 
-case "$BUILD" in
-  linux-trusty)
-    ;;
-  linux-xenial)
-    ;;
-  *-cuda8-cudnn6)
-    export CUDA_VERSION=8
-    export CUDNN_VERSION=6
-    ;;
-  *-cuda9-cudnn7)
-    export CUDA_VERSION=9
-    export CUDNN_VERSION=7
-    ;;
-  *-mkl)
-    export MKL=1
-    ;;
-  *-android)
-    export ANDROID=1
-    ;;
-  *)
-    echo "Unsupported BUILD: $BUILD"
-    exit 1
-    ;;
-esac
+if [[ "$BUILD" == *cuda8-cudnn6* ]]; then
+  export CUDA_VERSION=8
+  export CUDNN_VERSION=6
+fi
+
+if [[ "$BUILD" == *cuda9-cudnn7* ]]; then
+  export CUDA_VERSION=9
+  export CUDNN_VERSION=7
+fi
 
 # Optionally install CUDA
 if [ -n "$CUDA_VERSION" ]; then
@@ -137,30 +122,6 @@ if [ -n "$CUDA_VERSION" ]; then
     "libcudnn${CUDNN_VERSION}-dev=${CUDNN_PKG_VERSION}"
 fi
 
-# Optionally install MKL
-if [ -n "$MKL" ]; then
-  key="https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS-2019.PUB"
-  curl "${key}" | apt-key add -
-  echo 'deb http://apt.repos.intel.com/mkl all main' | \
-    tee /etc/apt/sources.list.d/intel-mkl.list
-  apt-get update
-  $APT_INSTALL_CMD intel-mkl-64bit
-fi
-
-# Optionally install Android toolkit
-if [ -n "$ANDROID" ]; then
-  apt-get update
-  $APT_INSTALL_CMD autotools-dev autoconf unzip
-  pushd /tmp
-  wget -q https://dl.google.com/android/repository/android-ndk-r13b-linux-x86_64.zip
-  popd
-  _ndk_dir=/opt/ndk
-  mkdir -p "$_ndk_dir"
-  unzip -qo /tmp/android*.zip -d "$_ndk_dir"
-  _versioned_dir=$(find "$_ndk_dir/" -mindepth 1 -maxdepth 1 -type d)
-  mv "$_versioned_dir"/* "$_ndk_dir"/
-  rmdir "$_versioned_dir"
-fi
 
 # Cleanup package manager
 apt-get autoclean && apt-get clean
