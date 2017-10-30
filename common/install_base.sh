@@ -26,6 +26,7 @@ apt-get install -y --no-install-recommends \
   libprotobuf-dev \
   libpthread-stubs0-dev \
   libsnappy-dev \
+  libyaml-dev \
   protobuf-compiler \
   python \
   python-dev \
