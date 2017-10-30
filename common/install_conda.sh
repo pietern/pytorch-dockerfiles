@@ -16,10 +16,10 @@ if [ -n "$CONDA_VERSION" ]; then
 
   case "$CONDA_VERSION" in
     2)
-      CONDA_FILE="Miniconda3-latest-Linux-x86_64.sh"
+      CONDA_FILE="Miniconda2-latest-Linux-x86_64.sh"
     ;;
     3)
-      CONDA_FILE="Miniconda2-latest-Linux-x86_64.sh"
+      CONDA_FILE="Miniconda3-latest-Linux-x86_64.sh"
     ;;
     *)
       echo "Unsupported CONDA_VERSION: $CONDA_VERSION"
