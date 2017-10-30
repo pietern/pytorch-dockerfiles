@@ -32,6 +32,7 @@ apt-get install -y --no-install-recommends \
   python-setuptools \
   python-wheel \
   software-properties-common \
+  sudo \
   wget \
   xsltproc
 

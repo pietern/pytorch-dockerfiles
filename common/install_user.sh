@@ -11,3 +11,6 @@ mkdir -p /var/lib/jenkins
 
 # Allow writing to /usr/local (for make install)
 chown jenkins:jenkins /usr/local
+
+# Allow sudo
+echo 'jenkins ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/jenkins
