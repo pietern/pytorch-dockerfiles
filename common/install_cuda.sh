@@ -80,6 +80,7 @@ if [ -n "$CUDA_VERSION" ]; then
     "cuda-cublas-dev-${CUDA_PKG_VERSION}" \
     "cuda-cudart-dev-${CUDA_PKG_VERSION}" \
     "cuda-curand-dev-${CUDA_PKG_VERSION}" \
+    "cuda-cusparse-dev-${CUDA_PKG_VERSION}" \
     "cuda-driver-dev-${CUDA_PKG_VERSION}" \
     "cuda-nvrtc-dev-${CUDA_PKG_VERSION}"
 
