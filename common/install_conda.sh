@@ -33,7 +33,7 @@ if [ -n "$CONDA_VERSION" ]; then
   pushd /tmp
   wget -q "${BASE_URL}/${CONDA_FILE}"
   chmod +x "${CONDA_FILE}"
-  ./"${CONDA_FILE}" -b -f -p "/opt/conda"
+  sudo -u jenkins ./"${CONDA_FILE}" -b -f -p "/opt/conda"
   popd
 fi
 
