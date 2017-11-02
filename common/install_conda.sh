@@ -38,7 +38,12 @@ if [ -n "$CONDA_VERSION" ]; then
 
   # Install our favorite conda packages
   /opt/conda/bin/conda install -y mkl numpy pyyaml
-  /opt/conda/bin/conda install -y magma-cuda80 -c soumith
+
+  if [[ "$BUILD" == *cuda8-cudnn6* ]]; then
+    /opt/conda/bin/conda install -y magma-cuda80 -c soumith
+  fi
+
+  # NB: magma not yet built for cuda9
 fi
 
 # Cleanup package manager
