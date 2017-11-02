@@ -35,6 +35,10 @@ if [ -n "$CONDA_VERSION" ]; then
   chmod +x "${CONDA_FILE}"
   sudo -u jenkins ./"${CONDA_FILE}" -b -f -p "/opt/conda"
   popd
+
+  # Install our favorite conda packages
+  /opt/conda/bin/conda install -y mkl numpy pyyaml
+  /opt/conda/bin/conda install -y magma-cuda80 -c soumith
 fi
 
 # Cleanup package manager
