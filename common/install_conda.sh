@@ -41,9 +41,9 @@ if [ -n "$CONDA_VERSION" ]; then
 
   if [[ "$BUILD" == *cuda8-cudnn6* ]]; then
     /opt/conda/bin/conda install -y magma-cuda80 -c soumith
+  elif [[ "$BUILD" == *cuda9-cudnn7* ]]; then
+    /opt/conda/bin/conda install -y magma-cuda90 -c soumith
   fi
-
-  # NB: magma not yet built for cuda9
 fi
 
 # Cleanup package manager
