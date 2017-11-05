@@ -37,12 +37,12 @@ if [ -n "$CONDA_VERSION" ]; then
   popd
 
   # Install our favorite conda packages
-  /opt/conda/bin/conda install -y mkl numpy pyyaml
+  sudo -u jenkins /opt/conda/bin/conda install -y mkl numpy pyyaml
 
   if [[ "$BUILD" == *cuda8-cudnn6* ]]; then
-    /opt/conda/bin/conda install -y magma-cuda80 -c soumith
+    sudo -u jenkins /opt/conda/bin/conda install -y magma-cuda80 -c soumith
   elif [[ "$BUILD" == *cuda9-cudnn7* ]]; then
-    /opt/conda/bin/conda install -y magma-cuda90 -c soumith
+    sudo -u jenkins /opt/conda/bin/conda install -y magma-cuda90 -c soumith
   fi
 fi
 
