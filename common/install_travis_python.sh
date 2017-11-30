@@ -52,3 +52,9 @@ fi
 if [[ "$BUILD" != *pynightly* ]]; then
     pip install scipy==0.19.1 scikit-image
 fi
+
+# Install additional dependencies for CPU tests
+add-apt-repository -y ppa:george-edison55/cmake-3.x
+apt-add-repository -y ppa:ubuntu-toolchain-r/test
+apt-get update
+apt-get install -y cmake g++-5 valgrind
