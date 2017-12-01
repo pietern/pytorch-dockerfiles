@@ -1,5 +1,10 @@
-ARG BUILD_ID
-FROM ci.pytorch.org/pytorch/pytorch-linux-trusty:${BUILD_ID}
+FROM ubuntu:trusty
+
+ENV DEBIAN_FRONTEND noninteractive
+
+# Install common dependencies (so that this step can be cached separately)
+ADD ./common/install_base.sh install_base.sh
+RUN bash ./install_base.sh && rm install_base.sh
 
 # Install Python stuff
 ARG BUILD
