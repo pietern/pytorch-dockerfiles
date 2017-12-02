@@ -2,7 +2,6 @@
 
 set -ex
 
-# Use pyenv to install a specific version of Python
 if [[ "$BUILD" == *py2.7* ]]; then
   export PYTHON_VERSION=2.7
 fi
