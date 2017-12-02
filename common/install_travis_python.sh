@@ -29,6 +29,9 @@ tar xjf python-$PYTHON_VERSION.tar.bz2 --directory /
 export PATH=/opt/python/$PYTHON_VERSION/bin:$PATH
 export LD_LIBRARY_PATH=/opt/python/$PYTHON_VERSION/lib:$LD_LIBRARY_PATH
 
+chown -R jenkins:jenkins /opt/python/$PYTHON_VERSION/
+chmod -R u=rwx /opt/python/$PYTHON_VERSION/
+
 apt-get update
 apt-get install -y gfortran
 
