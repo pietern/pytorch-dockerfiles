@@ -34,8 +34,11 @@ chown jenkins:jenkins /var/lib/jenkins
 chown jenkins:jenkins /usr/local
 
 # Allow writing to /opt/python/$PYTHON_VERSION/ (for adding Python package in CPU builds)
-chown -R jenkins:jenkins /opt/python/$PYTHON_VERSION/
-chmod -R u=rwx /opt/python/$PYTHON_VERSION/
+export PYTHON_PATH=/opt/python/$PYTHON_VERSION/
+if [ -d "$PYTHON_PATH" ]; then
+  chown -R jenkins:jenkins $PYTHON_PATH
+  chmod -R u=rwx $PYTHON_PATH
+fi
 
 # Allow sudo
 echo 'jenkins ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/jenkins
