@@ -2,7 +2,6 @@
 
 set -ex
 
-# Use pyenv to install a specific version of Python
 if [[ "$BUILD" == *py2.7* ]]; then
   export PYTHON_VERSION=2.7
 fi
@@ -28,9 +27,6 @@ wget https://s3.amazonaws.com/travis-python-archives/binaries/ubuntu/14.04/x86_6
 tar xjf python-$PYTHON_VERSION.tar.bz2 --directory /
 export PATH=/opt/python/$PYTHON_VERSION/bin:$PATH
 export LD_LIBRARY_PATH=/opt/python/$PYTHON_VERSION/lib:$LD_LIBRARY_PATH
-
-chown -R jenkins:jenkins /opt/python/$PYTHON_VERSION/
-chmod -R u=rwx /opt/python/$PYTHON_VERSION/
 
 apt-get update
 apt-get install -y gfortran
