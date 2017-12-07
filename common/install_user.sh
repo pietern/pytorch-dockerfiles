@@ -29,6 +29,8 @@ echo "jenkins:x:1014:" >> /etc/group
 # Create $HOME
 mkdir -p /var/lib/jenkins
 chown jenkins:jenkins /var/lib/jenkins
+mkdir -p /var/lib/jenkins/.ccache
+chown jenkins:jenkins /var/lib/jenkins/.ccache
 
 # Allow writing to /usr/local (for make install)
 chown jenkins:jenkins /usr/local
