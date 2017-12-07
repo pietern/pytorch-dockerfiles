@@ -23,8 +23,8 @@ if [[ "$BUILD" == *pynightly* ]]; then
 fi
 
 # Mirror jenkins user in container
-echo "jenkins:x:1001:1001::/var/lib/jenkins:" >> /etc/passwd
-echo "jenkins:x:1001:" >> /etc/group
+echo "jenkins:x:1014:1014::/var/lib/jenkins:" >> /etc/passwd
+echo "jenkins:x:1014:" >> /etc/group
 
 # Create $HOME
 mkdir -p /var/lib/jenkins
