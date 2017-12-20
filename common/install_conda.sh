@@ -38,6 +38,7 @@ if [ -n "$CONDA_VERSION" ]; then
 
   # Install our favorite conda packages
   sudo -u jenkins /opt/conda/bin/conda install -y mkl numpy pyyaml
+  sudo -u jenkins /opt/conda/bin/conda install -y nnpack -c killeent
 
   if [[ "$BUILD" == *cuda8-cudnn6* ]]; then
     sudo -u jenkins /opt/conda/bin/conda install -y magma-cuda80 -c soumith
