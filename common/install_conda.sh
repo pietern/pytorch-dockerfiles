@@ -45,6 +45,9 @@ if [ -n "$CONDA_VERSION" ]; then
   elif [[ "$BUILD" == *cuda9-cudnn7* ]]; then
     sudo -H -u jenkins /opt/conda/bin/conda install -q -y magma-cuda90 -c soumith
   fi
+
+  # Install some other packages
+  sudo -u jenkins /opt/conda/bin/pip install -y pytest scipy==0.19.1 scikit-image
 fi
 
 # Cleanup package manager
