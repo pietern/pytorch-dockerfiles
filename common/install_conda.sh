@@ -33,17 +33,17 @@ if [ -n "$CONDA_VERSION" ]; then
   pushd /tmp
   wget -q "${BASE_URL}/${CONDA_FILE}"
   chmod +x "${CONDA_FILE}"
-  sudo -u jenkins ./"${CONDA_FILE}" -b -f -p "/opt/conda"
+  sudo -H -u jenkins ./"${CONDA_FILE}" -b -f -p "/opt/conda"
   popd
 
   # Install our favorite conda packages
-  sudo -u jenkins /opt/conda/bin/conda install -q -y mkl numpy pyyaml
-  sudo -u jenkins /opt/conda/bin/conda install -q -y nnpack -c killeent
+  sudo -H -u jenkins /opt/conda/bin/conda install -q -y mkl numpy pyyaml
+  sudo -H -u jenkins /opt/conda/bin/conda install -q -y nnpack -c killeent
 
   if [[ "$BUILD" == *cuda8-cudnn6* ]]; then
-    sudo -u jenkins /opt/conda/bin/conda install -q -y magma-cuda80 -c soumith
+    sudo -H -u jenkins /opt/conda/bin/conda install -q -y magma-cuda80 -c soumith
   elif [[ "$BUILD" == *cuda9-cudnn7* ]]; then
-    sudo -u jenkins /opt/conda/bin/conda install -q -y magma-cuda90 -c soumith
+    sudo -H -u jenkins /opt/conda/bin/conda install -q -y magma-cuda90 -c soumith
   fi
 fi
 
