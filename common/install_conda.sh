@@ -36,6 +36,10 @@ if [ -n "$CONDA_VERSION" ]; then
   sudo -H -u jenkins ./"${CONDA_FILE}" -b -f -p "/opt/conda"
   popd
 
+  # Work around a conda bug https://github.com/conda/conda/issues/6576
+  sudo -H -u jenkins mkdir -p ~jenkins/.conda
+  sudo -H -u jenkins touch ~jenkins/.conda/environments.txt
+
   # Install our favorite conda packages
   sudo -H -u jenkins /opt/conda/bin/conda install -q -y mkl numpy pyyaml
   sudo -H -u jenkins /opt/conda/bin/conda install -q -y nnpack -c killeent
