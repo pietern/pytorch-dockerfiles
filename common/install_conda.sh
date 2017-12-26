@@ -51,7 +51,7 @@ if [ -n "$CONDA_VERSION" ]; then
   fi
 
   # Install some other packages
-  sudo -u jenkins /opt/conda/bin/pip install -y pytest scipy==0.19.1 scikit-image
+  sudo -u jenkins /opt/conda/bin/pip install -q pytest scipy==0.19.1 scikit-image
 fi
 
 # Cleanup package manager
