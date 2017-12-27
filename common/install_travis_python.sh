@@ -22,6 +22,16 @@ if [[ "$BUILD" == *pynightly* ]]; then
   export PYTHON_VERSION=nightly
 fi
 
+export GCC_VERSION=5
+
+if [[ "$BUILD" == *gcc4.8* ]]; then
+  export GCC_VERSION=4.8
+fi
+
+if [[ "$BUILD" == *gcc7.2* ]]; then
+  export GCC_VERSION=7
+fi
+
 # Download Python binary from Travis
 wget https://s3.amazonaws.com/travis-python-archives/binaries/ubuntu/14.04/x86_64/python-$PYTHON_VERSION.tar.bz2
 tar xjf python-$PYTHON_VERSION.tar.bz2 --directory /
@@ -56,4 +66,4 @@ fi
 add-apt-repository -y ppa:george-edison55/cmake-3.x
 apt-add-repository -y ppa:ubuntu-toolchain-r/test
 apt-get update
-apt-get install -y cmake g++-5 valgrind
+apt-get install -y cmake g++-$GCC_VERSION valgrind
