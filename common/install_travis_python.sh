@@ -22,12 +22,10 @@ if [[ "$BUILD" == *pynightly* ]]; then
   export PYTHON_VERSION=nightly
 fi
 
+export GCC_VERSION=5
+
 if [[ "$BUILD" == *gcc4.8* ]]; then
   export GCC_VERSION=4.8
-fi
-
-if [[ "$BUILD" == *gcc5.4* ]]; then
-  export GCC_VERSION=5
 fi
 
 if [[ "$BUILD" == *gcc7.2* ]]; then
