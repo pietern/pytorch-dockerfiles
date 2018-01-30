@@ -1,5 +1,5 @@
 ARG BUILD_ID
-FROM ci.pytorch.org/pytorch/pytorch-linux-xenial-cuda8-cudnn6:${BUILD_ID}
+FROM registry.pytorch.org/pytorch/pytorch-linux-xenial-cuda8-cudnn6:${BUILD_ID}
 
 # Install Conda
 ARG BUILD

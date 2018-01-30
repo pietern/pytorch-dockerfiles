@@ -1,5 +1,5 @@
 ARG BUILD_ID
-FROM ci.pytorch.org/pytorch/pytorch-linux-trusty:${BUILD_ID}
+FROM registry.pytorch.org/pytorch/pytorch-linux-trusty:${BUILD_ID}
 
 # Install Python stuff
 ARG BUILD

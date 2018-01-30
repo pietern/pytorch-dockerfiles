@@ -1,5 +1,5 @@
 ARG BUILD_ID
-FROM ci.pytorch.org/pytorch/pytorch-linux-xenial:${BUILD_ID}
+FROM registry.pytorch.org/pytorch/pytorch-linux-xenial:${BUILD_ID}
 
 # Install CUDA
 ARG BUILD
