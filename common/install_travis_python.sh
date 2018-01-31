@@ -45,19 +45,31 @@ apt-get install -y gfortran
 pip install --upgrade pip
 
 if [[ "$BUILD" == *pynightly* ]]; then
-    # Attempt a Numpy build, but don't complain it if it doesn't
-    # work; see https://github.com/numpy/numpy/issues/10500
-    pip install numpy || true
+    # These two packages have broken Cythonizations uploaded
+    # to PyPi, see:
+    #
+    #  - https://github.com/numpy/numpy/issues/10500
+    #  - https://github.com/yaml/pyyaml/issues/117
+    #
+    # Furthermore, the released version of Cython does not
+    # have these issues fixed.
+    #
+    # While we are waiting on fixes for these, we build
+    # from Git for now.  Feel free to delete this conditional
+    # branch if things start working again (you may need
+    # to do this if these packages regress on Git HEAD.)
+    pip install git+https://github.com/cython/cython.git
+    pip install git+https://github.com/numpy/numpy.git
+    pip install git+https://github.com/yaml/pyyaml.git
 else
-    pip install numpy
+    pip install numpy pyyaml
 fi
 
 pip install \
     future \
     hypothesis \
     protobuf \
-    pytest \
-    pyyaml
+    pytest
 
 # MKL library from pip does not support Python 2.7.9
 if [[ "$BUILD" != *py2.7.9* ]]; then
