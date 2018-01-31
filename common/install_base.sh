@@ -32,7 +32,6 @@ apt-get install -y --no-install-recommends \
   python-dev \
   python-setuptools \
   python-wheel \
-  mpich \
   software-properties-common \
   sudo \
   wget \
