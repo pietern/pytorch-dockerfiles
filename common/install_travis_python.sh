@@ -44,8 +44,15 @@ apt-get install -y gfortran
 # Install pip packages
 pip install --upgrade pip
 
+if [[ "$BUILD" == *pynightly* ]]; then
+    # Attempt a Numpy build, but don't complain it if it doesn't
+    # work; see https://github.com/numpy/numpy/issues/10500
+    pip install numpy || true
+else
+    pip install numpy
+fi
+
 pip install \
-    numpy \
     future \
     hypothesis \
     protobuf \
