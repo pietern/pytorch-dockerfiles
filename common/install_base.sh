@@ -27,6 +27,7 @@ apt-get install -y --no-install-recommends \
   libpthread-stubs0-dev \
   libsnappy-dev \
   libyaml-dev \
+  ninja-build \
   protobuf-compiler \
   python \
   python-dev \
