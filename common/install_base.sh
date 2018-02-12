@@ -56,6 +56,17 @@ ln -sf "$(which ccache)" gcc
 ln -sf "$(which ccache)" g++
 popd
 
+# Install sccache binaries
+pushd /tmp
+SCCACHE_BASE_URL="https://github.com/mozilla/sccache/releases/download/"
+SCCACHE_VERSION="0.2.5"
+SCCACHE_BASE="sccache-${SCCACHE_VERSION}-x86_64-unknown-linux-musl"
+SCCACHE_FILE="$SCCACHE_BASE.tar.gz"
+wget -q "$SCCACHE_BASE_URL/$SCCACHE_VERSION/$SCCACHE_FILE"
+tar xzf $SCCACHE_FILE
+mv "$SCCACHE_BASE/sccache" /usr/local/bin
+popd
+
 # Cleanup package manager
 apt-get autoclean && apt-get clean
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
