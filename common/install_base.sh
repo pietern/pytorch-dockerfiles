@@ -43,8 +43,8 @@ pushd /tmp
 git clone https://github.com/colesbury/ccache -b ccbin
 pushd ccache
 # Disable developer mode, so we squelch -Werror
-touch dev_mode_disabled
 ./autogen.sh
+touch dev_mode_disabled
 ./configure --prefix=/usr/local
 make "-j$(nproc)" install
 popd
