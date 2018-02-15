@@ -38,13 +38,12 @@ apt-get install -y --no-install-recommends \
   xsltproc
 
 # Install ccache from source.
-# Needs specific branch to work with nvcc (ccache/ccache#145)
+# Needs 3.4 or later for ccbin support
 pushd /tmp
-git clone https://github.com/colesbury/ccache -b ccbin
+git clone https://github.com/ccache/ccache -b v3.4.1
 pushd ccache
 # Disable developer mode, so we squelch -Werror
 ./autogen.sh
-touch dev_mode_disabled
 ./configure --prefix=/usr/local
 make "-j$(nproc)" install
 popd
