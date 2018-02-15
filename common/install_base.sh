@@ -43,7 +43,7 @@ pushd /tmp
 git clone https://github.com/colesbury/ccache -b ccbin
 pushd ccache
 # Disable developer mode, so we squelch -Werror
-rm dev.mk.in
+touch dev_mode_disabled
 ./autogen.sh
 ./configure --prefix=/usr/local
 make "-j$(nproc)" install
