@@ -41,7 +41,7 @@ if [ -n "$CONDA_VERSION" ]; then
   sudo -H -u jenkins touch ~jenkins/.conda/environments.txt
 
   # Install our favorite conda packages
-  sudo -H -u jenkins /opt/conda/bin/conda install -q -y mkl numpy pyyaml
+  sudo -H -u jenkins /opt/conda/bin/conda install -q -y mkl mkl-include numpy pyyaml
   sudo -H -u jenkins /opt/conda/bin/conda install -q -y nnpack -c killeent
 
   if [[ "$BUILD" == *cuda8-cudnn6* ]]; then
