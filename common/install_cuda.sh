@@ -82,7 +82,8 @@ if [ -n "$CUDA_VERSION" ]; then
     "cuda-curand-dev-${CUDA_PKG_VERSION}" \
     "cuda-cusparse-dev-${CUDA_PKG_VERSION}" \
     "cuda-driver-dev-${CUDA_PKG_VERSION}" \
-    "cuda-nvrtc-dev-${CUDA_PKG_VERSION}"
+    "cuda-nvrtc-dev-${CUDA_PKG_VERSION}" \
+    "cuda-cufft-dev-${CUDA_PKG_VERSION}"
 
   # Manually create CUDA symlink
   ln -sf "/usr/local/cuda-${CUDA_VERSION}" /usr/local/cuda
