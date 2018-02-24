@@ -30,28 +30,30 @@ if [ -n "$CONDA_VERSION" ]; then
   mkdir /opt/conda
   chown jenkins:jenkins /opt/conda
 
+  as_jenkins() {
+    # NB: unsetting the environment variables works around a conda bug
+    # https://github.com/conda/conda/issues/6576
+    sudo -H -u jenkins env -u SUDO_UID -u SUDO_GID -u SUDO_COMMAND -u SUDO_USER $*
+  }
+
   pushd /tmp
   wget -q "${BASE_URL}/${CONDA_FILE}"
   chmod +x "${CONDA_FILE}"
-  sudo -H -u jenkins ./"${CONDA_FILE}" -b -f -p "/opt/conda"
+  as_jenkins ./"${CONDA_FILE}" -b -f -p "/opt/conda"
   popd
 
-  # Work around a conda bug https://github.com/conda/conda/issues/6576
-  sudo -H -u jenkins mkdir -p ~jenkins/.conda
-  sudo -H -u jenkins touch ~jenkins/.conda/environments.txt
-
   # Install our favorite conda packages
-  sudo -H -u jenkins /opt/conda/bin/conda install -q -y mkl mkl-include numpy pyyaml
-  sudo -H -u jenkins /opt/conda/bin/conda install -q -y nnpack -c killeent
+  as_jenkins /opt/conda/bin/conda install -q -y mkl mkl-include numpy pyyaml
+  as_jenkins /opt/conda/bin/conda install -q -y nnpack -c killeent
 
   if [[ "$BUILD" == *cuda8-cudnn6* ]]; then
-    sudo -H -u jenkins /opt/conda/bin/conda install -q -y magma-cuda80 -c soumith
+    as_jenkins /opt/conda/bin/conda install -q -y magma-cuda80 -c soumith
   elif [[ "$BUILD" == *cuda9-cudnn7* ]]; then
-    sudo -H -u jenkins /opt/conda/bin/conda install -q -y magma-cuda90 -c soumith
+    as_jenkins /opt/conda/bin/conda install -q -y magma-cuda90 -c soumith
   fi
 
   # Install some other packages
-  sudo -H -u jenkins /opt/conda/bin/pip install -q pytest scipy==0.19.1 scikit-image
+  as_jenkins /opt/conda/bin/pip install -q pytest scipy==0.19.1 scikit-image
 fi
 
 # Cleanup package manager
