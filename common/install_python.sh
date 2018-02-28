@@ -20,5 +20,6 @@ pip install \
     numpy \
     protobuf \
     pytest \
+    matplotlib \
     scipy==0.19.1 \
     scikit-image
