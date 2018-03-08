@@ -2,11 +2,19 @@
 
 set -ex
 
+if [[ "$BUILD" == *py2* ]]; then
+  export CONDA_VERSION=2
+fi
+
+if [[ "$BUILD" == *py3* ]]; then
+  export CONDA_VERSION=3
+fi
+
 # Optionally install conda
-if [ -n "$ANACONDA_VERSION" ]; then
+if [ -n "$CONDA_VERSION" ]; then
   BASE_URL="https://repo.continuum.io/miniconda"
 
-  case "$ANACONDA_VERSION" in
+  case "$CONDA_VERSION" in
     2)
       CONDA_FILE="Miniconda2-latest-Linux-x86_64.sh"
     ;;
@@ -14,7 +22,7 @@ if [ -n "$ANACONDA_VERSION" ]; then
       CONDA_FILE="Miniconda3-latest-Linux-x86_64.sh"
     ;;
     *)
-      echo "Unsupported ANACONDA_VERSION: $ANACONDA_VERSION"
+      echo "Unsupported CONDA_VERSION: $CONDA_VERSION"
       exit 1
       ;;
   esac
@@ -46,8 +54,8 @@ if [ -n "$ANACONDA_VERSION" ]; then
 
   # Install some other packages
   as_jenkins /opt/conda/bin/pip install -q pytest scipy==0.19.1 scikit-image
-
-  # Cleanup package manager
-  apt-get autoclean && apt-get clean
-  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 fi
+
+# Cleanup package manager
+apt-get autoclean && apt-get clean
+rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
