@@ -16,7 +16,7 @@ if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
   # Install pip packages
   pip install --upgrade pip
 
-  if [[ "$TRAVIS_PYTHON_VERSION" == pynightly ]]; then
+  if [[ "$TRAVIS_PYTHON_VERSION" == nightly ]]; then
       # These two packages have broken Cythonizations uploaded
       # to PyPi, see:
       #
@@ -49,7 +49,7 @@ if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
   fi
 
   # SciPy does not support Python 3.7
-  if [[ "$TRAVIS_PYTHON_VERSION" != pynightly ]]; then
+  if [[ "$TRAVIS_PYTHON_VERSION" != nightly ]]; then
       pip install scipy==0.19.1 scikit-image
   fi
 

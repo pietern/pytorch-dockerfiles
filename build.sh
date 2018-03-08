@@ -46,6 +46,12 @@ else
   if [[ "$image" == *-gcc* ]]; then
     GCC_VERSION="$(echo "${image}" | perl -n -e'/-gcc([^-]+)/ && print $1')"
   fi
+  if [[ "$GCC_VERSION" == 5.2 ]]; then
+    GCC_VERSION=5
+  fi
+  if [[ "$GCC_VERSION" == 7.2 ]]; then
+    GCC_VERSION=7
+  fi
 fi
 
 if [[ "$image" == *-clang* ]]; then
