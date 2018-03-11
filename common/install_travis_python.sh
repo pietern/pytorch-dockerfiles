@@ -3,9 +3,8 @@
 set -ex
 
 as_jenkins() {
-  # NB: Preserve environment so we get our PATH changes
-  # TODO: This might cause other issues if not careful.
-  sudo -E -H -u jenkins $*
+  # NB: Preserve PATH and LD_LIBRARY_PATH changes
+  sudo -H -u jenkins env "PATH=$PATH" "LD_LIBRARY_PATH=$LD_LIBRARY_PATH" $*
 }
 
 if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
@@ -25,16 +24,13 @@ if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
   export PATH=/opt/python/$TRAVIS_PYTHON_VERSION/bin:$PATH
   export LD_LIBRARY_PATH=/opt/python/$TRAVIS_PYTHON_VERSION/lib:$LD_LIBRARY_PATH
 
-  apt-get update
-  apt-get install -y gfortran
+  as_jenkins which python
 
   # Install pip from source.
   # The python-pip package on Ubuntu Trusty is old
   # and upon install numpy doesn't use the binary
   # distribution, and fails to compile it from source.
   pushd tmp
-  as_jenkins which python
-  exit 1
   as_jenkins curl -O https://pypi.python.org/packages/11/b6/abcb525026a4be042b486df43905d6893fb04f05aac21c32c638e939e447/pip-9.0.1.tar.gz
   as_jenkins tar zxf pip-9.0.1.tar.gz
   pushd pip-9.0.1
@@ -42,6 +38,9 @@ if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
   popd
   rm -rf pip-9.0.1*
   popd
+
+  apt-get update
+  apt-get install -y gfortran
 
   # Install pip packages
   as_jenkins pip install --upgrade pip
