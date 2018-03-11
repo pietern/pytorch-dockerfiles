@@ -9,7 +9,7 @@ as_jenkins() {
 
 if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
 
-  mkdir /opt/python
+  mkdir -p /opt/python
   chown jenkins:jenkins /opt/python
 
   # Download Python binary from Travis
@@ -19,7 +19,8 @@ if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
   # don't care about.  (Maybe we should, but we've worked around the
   # "how do I install to python" issue by making this entire directory
   # user-writable "lol")
-  as_jenkins tar xjf python-$TRAVIS_PYTHON_VERSION.tar.bz2 opt --directory /
+  # NB: Relative ordering of opt/python and flags matters
+  as_jenkins tar xvjf python-$TRAVIS_PYTHON_VERSION.tar.bz2 --strip-components=2 --directory /opt/python opt/python
   popd
   export PATH=/opt/python/$TRAVIS_PYTHON_VERSION/bin:$PATH
   export LD_LIBRARY_PATH=/opt/python/$TRAVIS_PYTHON_VERSION/lib:$LD_LIBRARY_PATH
