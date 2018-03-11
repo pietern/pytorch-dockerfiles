@@ -14,7 +14,11 @@ if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
   # Download Python binary from Travis
   pushd tmp
   as_jenkins wget https://s3.amazonaws.com/travis-python-archives/binaries/ubuntu/14.04/x86_64/python-$TRAVIS_PYTHON_VERSION.tar.bz2
-  as_jenkins tar xjf python-$TRAVIS_PYTHON_VERSION.tar.bz2 --directory /
+  # NB: The tarball also comes with /home/travis virtualenv that we
+  # don't care about.  (Maybe we should, but we've worked around the
+  # "how do I install to python" issue by making this entire directory
+  # user-writable "lol")
+  as_jenkins tar xjf python-$TRAVIS_PYTHON_VERSION.tar.bz2 opt --directory /
   popd
   export PATH=/opt/python/$TRAVIS_PYTHON_VERSION/bin:$PATH
   export LD_LIBRARY_PATH=/opt/python/$TRAVIS_PYTHON_VERSION/lib:$LD_LIBRARY_PATH
