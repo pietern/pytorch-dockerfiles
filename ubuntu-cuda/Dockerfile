@@ -24,6 +24,10 @@ ARG ANACONDA_VERSION
 ADD ./common/install_conda.sh install_conda.sh
 RUN bash ./install_conda.sh && rm install_conda.sh
 
+# Install extra CUDA stuff
+ADD ./common/install_cuda.sh install_cuda.sh
+RUN bash ./install_cuda.sh && rm install_cuda.sh
+
 # Include BUILD_ENVIRONMENT environment variable in image
 ARG BUILD_ENVIRONMENT
 ENV BUILD_ENVIRONMENT ${BUILD_ENVIRONMENT}
