@@ -2,11 +2,20 @@
 
 set -ex
 
+as_jenkins() {
+  sudo -H -u jenkins $*
+}
+
 if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
 
+  mkdir /opt/python
+  chown jenkins:jenkins /opt/python
+
   # Download Python binary from Travis
-  wget https://s3.amazonaws.com/travis-python-archives/binaries/ubuntu/14.04/x86_64/python-$TRAVIS_PYTHON_VERSION.tar.bz2
-  tar xjf python-$TRAVIS_PYTHON_VERSION.tar.bz2 --directory /
+  pushd tmp
+  as_jenkins wget https://s3.amazonaws.com/travis-python-archives/binaries/ubuntu/14.04/x86_64/python-$TRAVIS_PYTHON_VERSION.tar.bz2
+  as_jenkins tar xjf python-$TRAVIS_PYTHON_VERSION.tar.bz2 --directory /
+  popd
   export PATH=/opt/python/$TRAVIS_PYTHON_VERSION/bin:$PATH
   export LD_LIBRARY_PATH=/opt/python/$TRAVIS_PYTHON_VERSION/lib:$LD_LIBRARY_PATH
 
@@ -14,7 +23,7 @@ if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
   apt-get install -y gfortran
 
   # Install pip packages
-  pip install --upgrade pip
+  as_jenkins pip install --upgrade pip
 
   if [[ "$TRAVIS_PYTHON_VERSION" == nightly ]]; then
       # These two packages have broken Cythonizations uploaded
@@ -30,27 +39,28 @@ if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
       # from Git for now.  Feel free to delete this conditional
       # branch if things start working again (you may need
       # to do this if these packages regress on Git HEAD.)
-      pip install git+https://github.com/cython/cython.git
-      pip install git+https://github.com/numpy/numpy.git
-      pip install git+https://github.com/yaml/pyyaml.git
+      as_jenkins pip install git+https://github.com/cython/cython.git
+      as_jenkins pip install git+https://github.com/numpy/numpy.git
+      as_jenkins pip install git+https://github.com/yaml/pyyaml.git
   else
-      pip install numpy pyyaml
+      as_jenkins pip install numpy pyyaml
   fi
 
-  pip install \
+  as_jenkins pip install \
       future \
       hypothesis \
       protobuf \
-      pytest
+      pytest \
+      typing
 
   # MKL library from pip does not support Python 2.7.9
   if [[ "$TRAVIS_PYTHON_VERSION" != 2.7.9 ]]; then
-      pip install mkl
+      as_jenkins pip install mkl
   fi
 
   # SciPy does not support Python 3.7
   if [[ "$TRAVIS_PYTHON_VERSION" != nightly ]]; then
-      pip install scipy==0.19.1 scikit-image
+      as_jenkins pip install scipy==0.19.1 scikit-image
   fi
 
   # Install additional dependencies for CPU tests
