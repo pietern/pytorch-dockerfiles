@@ -2,6 +2,13 @@
 
 set -ex
 
+# Use AWS mirror if running in EC2
+if [ -n "${EC2:-}" ]; then
+  A="archive.ubuntu.com"
+  B="us-east-1.ec2.archive.ubuntu.com"
+  perl -pi -e "s/${A}/${B}/g" /etc/apt/sources.list
+fi
+
 # Install common dependencies
 apt-get update
 apt-get install -y --no-install-recommends \
