@@ -2,11 +2,12 @@ ARG UBUNTU_VERSION
 ARG CUDA_VERSION
 ARG CUDNN_VERSION
 
-FROM ezyang/cuda:${CUDA_VERSION}-cudnn${CUDNN_VERSION}-devel-ubuntu${UBUNTU_VERSION}-20180318
+FROM nvidia/cuda:${CUDA_VERSION}-cudnn${CUDNN_VERSION}-devel-ubuntu${UBUNTU_VERSION}
 
 ENV DEBIAN_FRONTEND noninteractive
 
 # Install common dependencies (so that this step can be cached separately)
+ARG EC2
 ADD ./common/install_base.sh install_base.sh
 RUN bash ./install_base.sh && rm install_base.sh
 

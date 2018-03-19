@@ -44,6 +44,11 @@ apt-get install -y --no-install-recommends \
   wget \
   xsltproc
 
+# Experiment to see if libnccl is to blame for our troubles
+if dpkg -s libnccl-dev; then
+  apt-get remove -y libnccl-dev libnccl2
+fi
+
 # Install ccache from source.
 # Needs 3.4 or later for ccbin support
 pushd /tmp

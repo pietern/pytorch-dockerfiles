@@ -5,6 +5,7 @@ FROM ubuntu:${UBUNTU_VERSION}
 ENV DEBIAN_FRONTEND noninteractive
 
 # Install common dependencies (so that this step can be cached separately)
+ARG EC2
 ADD ./common/install_base.sh install_base.sh
 RUN bash ./install_base.sh && rm install_base.sh
 
