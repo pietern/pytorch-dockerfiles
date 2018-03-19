@@ -11,6 +11,7 @@ fi
 
 # Install common dependencies
 apt-get update
+# TODO: Some of these may not be necessary
 apt-get install -y --no-install-recommends \
   apt-transport-https \
   asciidoc \
@@ -20,29 +21,17 @@ apt-get install -y --no-install-recommends \
   ca-certificates \
   cmake \
   curl \
-  docbook-xml \
-  docbook-xsl \
   git \
-  gperf \
   libatlas-base-dev \
-  libgoogle-glog-dev \
   libiomp-dev \
-  libleveldb-dev \
-  liblmdb-dev \
-  libopencv-dev \
-  libprotobuf-dev \
-  libpthread-stubs0-dev \
-  libsnappy-dev \
   libyaml-dev \
-  protobuf-compiler \
   python \
   python-dev \
   python-setuptools \
   python-wheel \
   software-properties-common \
   sudo \
-  wget \
-  xsltproc
+  wget
 
 # Experiment to see if libnccl is to blame for our troubles
 if dpkg -s libnccl-dev; then
