@@ -2,6 +2,9 @@
 
 set -ex
 
+# Experiment to see if libnccl is to blame for our troubles
+apt-get remove libnccl-dev libnccl2
+
 # Install ccache wrapper for nvcc
 # Tired: Must happen after installing CUDA itself because it looks
 # like installing CUDA nukes existing nvcc symlinks.
