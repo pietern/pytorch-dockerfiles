@@ -38,9 +38,9 @@ if [ -n "$ANACONDA_VERSION" ]; then
   as_jenkins /opt/conda/bin/conda install -q -y mkl mkl-include numpy pyyaml
   as_jenkins /opt/conda/bin/conda install -q -y nnpack -c killeent
 
-  if [[ "$BUILD" == *cuda8-cudnn6* ]]; then
+  if [[ "$CUDA_VERSION" == 8.0* ]]; then
     as_jenkins /opt/conda/bin/conda install -q -y magma-cuda80 -c soumith
-  elif [[ "$BUILD" == *cuda9-cudnn7* ]]; then
+  elif [[ "$CUDA_VERSION" == 9.0* ]]; then
     as_jenkins /opt/conda/bin/conda install -q -y magma-cuda90 -c soumith
   fi
 
