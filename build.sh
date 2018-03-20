@@ -52,18 +52,22 @@ case "$image" in
     ;;
   pytorch-linux-xenial-cuda8-cudnn6-py2)
     CUDA_VERSION=8.0
+    CUDNN_VERSION=6
     ANACONDA_VERSION=2
     ;;
   pytorch-linux-xenial-cuda8-cudnn6-py3)
     CUDA_VERSION=8.0
+    CUDNN_VERSION=6
     ANACONDA_VERSION=3
     ;;
   pytorch-linux-xenial-cuda9-cudnn7-py2)
     CUDA_VERSION=9.0
+    CUDNN_VERSION=7
     ANACONDA_VERSION=2
     ;;
   pytorch-linux-xenial-cuda9-cudnn7-py3)
     CUDA_VERSION=9.0
+    CUDNN_VERSION=7
     ANACONDA_VERSION=3
     ;;
   pytorch-linux-xenial-py3-clang5-asan)
