@@ -4,6 +4,8 @@ FROM ubuntu:${UBUNTU_VERSION}
 
 ENV DEBIAN_FRONTEND noninteractive
 
+RUN  echo 'Acquire::http { Proxy "http://172.17.0.1:3142"; };' >> /etc/apt/apt.conf.d/01proxy
+
 # Install common dependencies (so that this step can be cached separately)
 ARG EC2
 ADD ./common/install_base.sh install_base.sh
@@ -23,8 +25,13 @@ ARG CLANG_VERSION
 ADD ./common/install_clang.sh install_clang.sh
 RUN bash ./install_clang.sh && rm install_clang.sh
 
-ARG TRAVIS_PYTHON_VERSION
+# Install gcc
 ARG GCC_VERSION
+ADD ./common/install_gcc.sh install_gcc.sh
+RUN bash ./install_gcc.sh && rm install_gcc.sh
+
+# Install non-standard Python versions (via Travis binaries)
+ARG TRAVIS_PYTHON_VERSION
 ADD ./common/install_travis_python.sh install_travis_python.sh
 RUN bash ./install_travis_python.sh && rm install_travis_python.sh
 

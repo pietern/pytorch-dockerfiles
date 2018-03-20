@@ -21,19 +21,25 @@ apt-get install -y --no-install-recommends \
   ca-certificates \
   cmake \
   curl \
+  docbook-xml \
+  docbook-xsl \
   git \
   libatlas-base-dev \
   libiomp-dev \
   libyaml-dev \
+  libz-dev \
   python \
   python-dev \
   python-setuptools \
   python-wheel \
   software-properties-common \
   sudo \
-  wget
+  wget \
+  valgrind \
+  xsltproc
 
-# Experiment to see if libnccl is to blame for our troubles
+# TODO: THIS IS A HACK!!!
+# distributed nccl(2) tests are a bit busted, see https://github.com/pytorch/pytorch/issues/5877
 if dpkg -s libnccl-dev; then
   apt-get remove -y libnccl-dev libnccl2
 fi
@@ -56,6 +62,9 @@ ln -sf "$(which ccache)" cc
 ln -sf "$(which ccache)" c++
 ln -sf "$(which ccache)" gcc
 ln -sf "$(which ccache)" g++
+ln -sf "$(which ccache)" clang
+ln -sf "$(which ccache)" clang++
+ln -sf "$(which ccache)" nvcc
 popd
 
 # Install sccache binaries

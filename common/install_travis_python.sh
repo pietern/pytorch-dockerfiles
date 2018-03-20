@@ -22,8 +22,10 @@ if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
   # NB: Relative ordering of opt/python and flags matters
   as_jenkins tar xvjf python-$TRAVIS_PYTHON_VERSION.tar.bz2 --strip-components=2 --directory /opt/python opt/python
   popd
-  export PATH=/opt/python/$TRAVIS_PYTHON_VERSION/bin:$PATH
-  export LD_LIBRARY_PATH=/opt/python/$TRAVIS_PYTHON_VERSION/lib:$LD_LIBRARY_PATH
+
+  echo "/opt/python/$TRAVIS_PYTHON_VERSION/lib" > /etc/ld.so.conf.d/travis-python.conf
+  ldconfig
+  update-alternatives --install /usr/bin/python python "/opt/python/$TRAVIS_PYTHON_VERSION/bin/python" 50
 
   as_jenkins which python
 
@@ -83,13 +85,6 @@ if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
   if [[ "$TRAVIS_PYTHON_VERSION" != nightly ]]; then
       as_jenkins pip install scipy==0.19.1 scikit-image
   fi
-
-  # Install additional dependencies for CPU tests
-  add-apt-repository -y ppa:george-edison55/cmake-3.x
-  apt-add-repository -y ppa:ubuntu-toolchain-r/test
-  apt-get update
-
-  apt-get install -y cmake g++-$GCC_VERSION valgrind
 
   # Cleanup package manager
   apt-get autoclean && apt-get clean

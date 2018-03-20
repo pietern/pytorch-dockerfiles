@@ -34,18 +34,21 @@ if [ -n "$ANACONDA_VERSION" ]; then
   as_jenkins ./"${CONDA_FILE}" -b -f -p "/opt/conda"
   popd
 
+  echo "source activate /opt/conda/bin/activate" | as_jenkins tee ~jenkins/.bashrc
+  source activate /opt/conda/bin/activate
+
   # Install our favorite conda packages
-  as_jenkins /opt/conda/bin/conda install -q -y mkl mkl-include numpy pyyaml
-  as_jenkins /opt/conda/bin/conda install -q -y nnpack -c killeent
+  as_jenkins conda install -q -y mkl mkl-include numpy pyyaml
+  as_jenkins conda install -q -y nnpack -c killeent
 
   if [[ "$CUDA_VERSION" == 8.0* ]]; then
-    as_jenkins /opt/conda/bin/conda install -q -y magma-cuda80 -c soumith
+    as_jenkins conda install -q -y magma-cuda80 -c soumith
   elif [[ "$CUDA_VERSION" == 9.0* ]]; then
-    as_jenkins /opt/conda/bin/conda install -q -y magma-cuda90 -c soumith
+    as_jenkins conda install -q -y magma-cuda90 -c soumith
   fi
 
   # Install some other packages
-  as_jenkins /opt/conda/bin/pip install -q pytest scipy==0.19.1 scikit-image
+  as_jenkins pip install -q pytest scipy==0.19.1 scikit-image
 
   # Cleanup package manager
   apt-get autoclean && apt-get clean

@@ -12,6 +12,10 @@ fi
 
 # TODO: Generalize
 OS="ubuntu"
+DOCKERFILE="${OS}/Dockerfile"
+if [[ "$image" == *-cuda* ]]; then
+  DOCKERFILE="${OS}-cuda/Dockerfile"
+fi
 
 if [[ "$image" == *-trusty* ]]; then
   UBUNTU_VERSION=14.04
@@ -21,46 +25,52 @@ elif [[ "$image" == *-artful* ]]; then
   UBUNTU_VERSION=17.10
 fi
 
-DOCKERFILE="${OS}/Dockerfile"
-
-if [[ "$image" == *-cuda* ]]; then
-  CUDA_VERSION="$(echo "${image}" | perl -n -e'/-cuda(\d+(?:\.\d+)?)/ && print $1')"
-  CUDNN_VERSION="$(echo "${image}" | perl -n -e'/-cudnn(\d+)/ && print $1')"
-  DOCKERFILE="${OS}-cuda/Dockerfile"
-
-  if [[ "$CUDA_VERSION" == "8" ]]; then
-    CUDA_VERSION=8.0
-  elif [[ "$CUDA_VERSION" == "9" ]]; then
-    CUDA_VERSION=9.0
-  fi
-fi
-
-if [[ "$image" == *xenial* ]]; then
-  # MANDATORY
-  ANACONDA_VERSION="$(echo "${image}" | perl -n -e'/-py(\d)/ && print $1')"
-else
-  if [[ "$image" == *-py* ]]; then
-    TRAVIS_PYTHON_VERSION="$(echo "${image}" | perl -n -e'/-py([^-]+)/ && print $1')"
-  fi
-  GCC_VERSION=5
-  if [[ "$image" == *-gcc* ]]; then
-    GCC_VERSION="$(echo "${image}" | perl -n -e'/-gcc([^-]+)/ && print $1')"
-  fi
-  if [[ "$GCC_VERSION" == 5.4 ]]; then
+# It's annoying to rename jobs every time you want to rewrite a
+# configuration, so we hardcode everything here rather than do it
+# from scratch
+case "$image" in
+  linux-trusty-py2.7)
+    TRAVIS_PYTHON_VERSION=2.7
+    ;;
+  linux-trusty-py3.5)
+    TRAVIS_PYTHON_VERSION=3.5
+    ;;
+  linux-trusty-py3.6-gcc4.8)
+    ANACONDA_VERSION=3
+    GCC_VERSION=4.8
+    ;;
+  linux-trusty-py3.6-gcc5.4)
+    ANACONDA_VERSION=3
     GCC_VERSION=5
-  fi
-  if [[ "$GCC_VERSION" == 7.2 ]]; then
+    ;;
+  linux-trusty-py3.6-gcc7.2)
+    ANACONDA_VERSION=3
     GCC_VERSION=7
-  fi
-fi
-
-if [[ "$image" == *-clang* ]]; then
-  CLANG_VERSION="$(echo "${image}" | perl -n -e'/-clang(\d+(?:\.\d+)?)/ && print $1')"
-
-  if [[ "$CLANG_VERSION" == "5" ]]; then
+    ;;
+  linux-trusty-pynightly)
+    TRAVIS_PYTHON_VERSION=nightly
+    ;;
+  linux-xenial-cuda8-cudnn6-py2)
+    CUDA_VERSION=8.0
+    ANACONDA_VERSION=2
+    ;;
+  linux-xenial-cuda8-cudnn6-py3)
+    CUDA_VERSION=8.0
+    ANACONDA_VERSION=3
+    ;;
+  linux-xenial-cuda9-cudnn7-py2)
+    CUDA_VERSION=9.0
+    ANACONDA_VERSION=2
+    ;;
+  linux-xenial-cuda9-cudnn7-py3)
+    CUDA_VERSION=9.0
+    ANACONDA_VERSION=3
+    ;;
+  linux-xenial-py3-clang5-asan)
+    ANACONDA_VERSION=3
     CLANG_VERSION=5.0
-  fi
-fi
+    ;;
+esac
 
 # Set Jenkins UID and GID if running Jenkins
 if [ -n "${JENKINS:-}" ]; then
@@ -70,7 +80,6 @@ fi
 
 # Build image
 docker build \
-       --no-cache \
        --build-arg "BUILD_ENVIRONMENT=${image}" \
        --build-arg "EC2=${EC2:-}" \
        --build-arg "JENKINS=${JENKINS:-}" \
