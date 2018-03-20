@@ -4,6 +4,10 @@ ARG CUDNN_VERSION
 
 FROM nvidia/cuda:${CUDA_VERSION}-cudnn${CUDNN_VERSION}-devel-ubuntu${UBUNTU_VERSION}
 
+ARG UBUNTU_VERSION
+ARG CUDA_VERSION
+ARG CUDNN_VERSION
+
 ENV DEBIAN_FRONTEND noninteractive
 
 # Install common dependencies (so that this step can be cached separately)

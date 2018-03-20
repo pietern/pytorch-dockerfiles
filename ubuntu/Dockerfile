@@ -2,6 +2,8 @@ ARG UBUNTU_VERSION
 
 FROM ubuntu:${UBUNTU_VERSION}
 
+ARG UBUNTU_VERSION
+
 ENV DEBIAN_FRONTEND noninteractive
 
 # Install common dependencies (so that this step can be cached separately)
