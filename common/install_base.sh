@@ -29,6 +29,7 @@ apt-get install -y --no-install-recommends \
   libiomp-dev \
   libyaml-dev \
   libz-dev \
+  libjpeg-dev \
   python \
   python-dev \
   python-setuptools \
