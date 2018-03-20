@@ -12,8 +12,8 @@ ADD ./common/install_base.sh install_base.sh
 RUN bash ./install_base.sh && rm install_base.sh
 
 # Install ccache/sccache
-ADD ./common/install_ccache.sh install_ccache.sh
-RUN bash ./install_ccache.sh && rm install_ccache.sh
+ADD ./common/install_cache.sh install_cache.sh
+RUN bash ./install_cache.sh && rm install_cache.sh
 
 # Install user
 ADD ./common/install_user.sh install_user.sh
