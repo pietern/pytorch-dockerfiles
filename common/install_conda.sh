@@ -34,11 +34,14 @@ if [ -n "$ANACONDA_VERSION" ]; then
   as_jenkins ./"${CONDA_FILE}" -b -f -p "/opt/conda"
   popd
 
+  # TODO: Consider using an ENV to set the PATH in the Dockerfile instead
+  # Don't forget to register this in ld.so.  The benefit of this style,
+  # however, is that it more closely tracks how normal users use conda
   echo "source activate /opt/conda/bin/activate" | as_jenkins tee ~jenkins/.bashrc
   source activate /opt/conda/bin/activate
 
   # Install our favorite conda packages
-  as_jenkins conda install -q -y mkl mkl-include numpy pyyaml
+  as_jenkins conda install -q -y mkl mkl-include numpy pyyaml pillow
   as_jenkins conda install -q -y nnpack -c killeent
 
   if [[ "$CUDA_VERSION" == 8.0* ]]; then
@@ -48,6 +51,7 @@ if [ -n "$ANACONDA_VERSION" ]; then
   fi
 
   # Install some other packages
+  # TODO: Why is scipy pinned
   as_jenkins pip install -q pytest scipy==0.19.1 scikit-image
 
   # Cleanup package manager

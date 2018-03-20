@@ -24,4 +24,12 @@ RUN bash ./install_conda.sh && rm install_conda.sh
 ARG BUILD_ENVIRONMENT
 ENV BUILD_ENVIRONMENT ${BUILD_ENVIRONMENT}
 
+# AWS specific CUDA build guidance
+ENV TORCH_CUDA_ARCH_LIST Maxwell
+ENV TORCH_NVCC_FLAGS "-Xfatbin -compress-all"
+
+# Other envvars
+ENV OMP_NUM_THREADS 4
+ENV MKL_NUM_THREADS 4
+
 CMD ["bash"]

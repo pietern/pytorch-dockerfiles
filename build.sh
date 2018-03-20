@@ -29,44 +29,44 @@ fi
 # configuration, so we hardcode everything here rather than do it
 # from scratch
 case "$image" in
-  linux-trusty-py2.7)
+  pytorch-linux-trusty-py2.7)
     TRAVIS_PYTHON_VERSION=2.7
     ;;
-  linux-trusty-py3.5)
+  pytorch-linux-trusty-py3.5)
     TRAVIS_PYTHON_VERSION=3.5
     ;;
-  linux-trusty-py3.6-gcc4.8)
+  pytorch-linux-trusty-py3.6-gcc4.8)
     ANACONDA_VERSION=3
     GCC_VERSION=4.8
     ;;
-  linux-trusty-py3.6-gcc5.4)
+  pytorch-linux-trusty-py3.6-gcc5.4)
     ANACONDA_VERSION=3
     GCC_VERSION=5
     ;;
-  linux-trusty-py3.6-gcc7.2)
+  pytorch-linux-trusty-py3.6-gcc7.2)
     ANACONDA_VERSION=3
     GCC_VERSION=7
     ;;
-  linux-trusty-pynightly)
+  pytorch-linux-trusty-pynightly)
     TRAVIS_PYTHON_VERSION=nightly
     ;;
-  linux-xenial-cuda8-cudnn6-py2)
+  pytorch-linux-xenial-cuda8-cudnn6-py2)
     CUDA_VERSION=8.0
     ANACONDA_VERSION=2
     ;;
-  linux-xenial-cuda8-cudnn6-py3)
+  pytorch-linux-xenial-cuda8-cudnn6-py3)
     CUDA_VERSION=8.0
     ANACONDA_VERSION=3
     ;;
-  linux-xenial-cuda9-cudnn7-py2)
+  pytorch-linux-xenial-cuda9-cudnn7-py2)
     CUDA_VERSION=9.0
     ANACONDA_VERSION=2
     ;;
-  linux-xenial-cuda9-cudnn7-py3)
+  pytorch-linux-xenial-cuda9-cudnn7-py3)
     CUDA_VERSION=9.0
     ANACONDA_VERSION=3
     ;;
-  linux-xenial-py3-clang5-asan)
+  pytorch-linux-xenial-py3-clang5-asan)
     ANACONDA_VERSION=3
     CLANG_VERSION=5.0
     ;;

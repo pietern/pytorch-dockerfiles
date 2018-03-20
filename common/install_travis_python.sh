@@ -42,6 +42,7 @@ if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
   rm -rf pip-9.0.1*
   popd
 
+  # For the numpy source build
   apt-get update
   apt-get install -y gfortran
 
@@ -74,6 +75,7 @@ if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
       hypothesis \
       protobuf \
       pytest \
+      pillow \
       typing
 
   # MKL library from pip does not support Python 2.7.9

@@ -39,4 +39,8 @@ RUN bash ./install_travis_python.sh && rm install_travis_python.sh
 ARG BUILD_ENVIRONMENT
 ENV BUILD_ENVIRONMENT ${BUILD_ENVIRONMENT}
 
+# Other envvars
+ENV OMP_NUM_THREADS 4
+ENV MKL_NUM_THREADS 4
+
 CMD ["bash"]

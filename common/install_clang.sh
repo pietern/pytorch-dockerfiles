@@ -8,8 +8,9 @@ if [ -n "$CLANG_VERSION" ]; then
   apt-get install -y --no-install-recommends clang-"$CLANG_VERSION"
 
   # Use update-alternatives to make this version the default
-  update-alternatives --install /usr/bin/gcc gcc /usr/bin/clang-"$CLANG_VERSION" 50
-  update-alternatives --install /usr/bin/g++ g++ /usr/bin/clang++-"$CLANG_VERSION" 50
+  # TODO: Decide if overriding gcc as well is a good idea
+  # update-alternatives --install /usr/bin/gcc gcc /usr/bin/clang-"$CLANG_VERSION" 50
+  # update-alternatives --install /usr/bin/g++ g++ /usr/bin/clang++-"$CLANG_VERSION" 50
   update-alternatives --install /usr/bin/clang clang /usr/bin/clang-"$CLANG_VERSION" 50
   update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-"$CLANG_VERSION" 50
 

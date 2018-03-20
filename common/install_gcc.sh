@@ -4,7 +4,7 @@ set -ex
 
 if [ -n "$GCC_VERSION" ]; then
 
-  # For some reason, we want updated toolchain packages
+  # Need the official toolchain repo to get alternate packages
   add-apt-repository ppa:ubuntu-toolchain-r/test
   apt-get update
   apt-get install -y g++-$GCC_VERSION
