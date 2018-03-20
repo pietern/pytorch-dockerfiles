@@ -88,7 +88,7 @@ else
   popd
 
   function write_sccache_stub() {
-    printf "#!/bin/sh\nexec sccache $1 \$*" > "/usr/local/bin/$1"
+    printf "#!/bin/sh\nexec sccache /usr/bin/$1 \$*" > "/usr/local/bin/$1"
     chmod a+x "/usr/local/bin/$1"
   }
 
