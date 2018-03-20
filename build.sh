@@ -85,6 +85,8 @@ if [ -n "${JENKINS:-}" ]; then
   JENKINS_GID=$(id -g jenkins)
 fi
 
+tmp_tag="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
+
 # Build image
 docker build \
        --build-arg "BUILD_ENVIRONMENT=${image}" \
@@ -100,12 +102,19 @@ docker build \
        --build-arg "CUDA_VERSION=${CUDA_VERSION}" \
        --build-arg "CUDNN_VERSION=${CUDNN_VERSION}" \
        -f $(dirname ${DOCKERFILE})/Dockerfile \
+       -t "$tmp_tag"
        "$@" \
        .
 
 function drun() {
-  docker run --rm "$image" $*
+  docker run --rm "$tmp_tag" $*
 }
+
+function cleanup() {
+  docker rmi "$tmp_tag"
+}
+
+trap cleanup EXIT
 
 if [[ "$OS" == "ubuntu" ]]; then
   if !(drun lsb_release -a | grep -qF Ubuntu); then
