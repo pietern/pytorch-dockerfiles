@@ -35,13 +35,12 @@ if [ -n "$ANACONDA_VERSION" ]; then
   as_jenkins ./"${CONDA_FILE}" -b -f -p "/opt/conda"
   popd
 
-  # TODO: Consider using an ENV to set the PATH in the Dockerfile instead
-  # Don't forget to register this in ld.so.  The benefit of this style,
-  # however, is that it more closely tracks how normal users use conda
-  #
-  # NOTE: This doesn't get executed when you sudo
-  echo "source /opt/conda/bin/activate" | as_jenkins tee ~jenkins/.bashrc
-  source /opt/conda/bin/activate
+  echo "/opt/conda/lib" > /etc/ld.so.conf.d/conda-python.conf
+  ldconfig
+  update-alternatives --install /usr/bin/python python "/opt/conda/bin/python" 50
+  update-alternatives --install /usr/bin/pip pip "/opt/conda/bin/pip" 50
+  update-alternatives --install /usr/bin/conda conda "/opt/conda/bin/conda" 50
+  update-alternatives --install /usr/bin/activate activate "/opt/conda/bin/activate" 50
 
   # Install our favorite conda packages
   as_jenkins conda install -q -y mkl mkl-include numpy pyyaml pillow
