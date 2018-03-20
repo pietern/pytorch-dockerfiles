@@ -110,47 +110,47 @@ function drun() {
   docker run --rm "$tmp_tag" $*
 }
 
-function cleanup() {
-  docker rmi "$tmp_tag"
-}
-
-trap cleanup EXIT
-
 if [[ "$OS" == "ubuntu" ]]; then
-  if !(drun lsb_release -a | grep -qF Ubuntu); then
-    echo "OS=ubuntu, but lsb_release reports: $(drun lsb_release -a)"
+  if !(drun lsb_release -a 2>/dev/null | grep -qF Ubuntu); then
+    echo "OS=ubuntu, but:"
+    drun lsb_release -a
     exit 1
   fi
-  if !(drun lsb_release -a | grep -qF "$UBUNTU_VERSION"); then
-    echo "UBUNTU_VERSION=$UBUNTU_VERSION, but lsb_release reports: $(drun lsb_release -a)"
+  if !(drun lsb_release -a 2>/dev/null | grep -qF "$UBUNTU_VERSION"); then
+    echo "UBUNTU_VERSION=$UBUNTU_VERSION, but:"
+    drun lsb_release -a
     exit 1
   fi
 fi
 
 if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
-  if !(drun python --version | grep -qF "Python $TRAVIS_PYTHON_VERSION"); then
-    echo "TRAVIS_PYTHON_VERSION=$TRAVIS_PYTHON_VERSION, but python --version reports: $(drun python --version)"
+  if !(drun python --version 2>&1 1>/dev/null | grep -qF "Python $TRAVIS_PYTHON_VERSION"); then
+    echo "TRAVIS_PYTHON_VERSION=$TRAVIS_PYTHON_VERSION, but:"
+    drun python --version
     exit 1
   fi
 fi
 
 if [ -n "$ANACONDA_VERSION" ]; then
-  if !(drun python --version | grep -qF "Python $ANACONDA_VERSION"); then
-    echo "ANACONDA_VERSION=$ANACONDA_VERSION, but python --version reports: $(drun python --version)"
+  if !(drun python --version 2>&1 1>/dev/null | grep -qF "Python $ANACONDA_VERSION"); then
+    echo "ANACONDA_VERSION=$ANACONDA_VERSION, but:"
+    drun python --version
     exit 1
   fi
 fi
 
 if [ -n "$GCC_VERSION" ]; then
-  if !(drun gcc --version | grep -qF "$GCC_VERSION"); then
-    echo "GCC_VERSION=$GCC_VERSION, but gcc --version reports: $(drun gcc --version)"
+  if !(drun gcc --version 2>/dev/null | grep -qF "$GCC_VERSION"); then
+    echo "GCC_VERSION=$GCC_VERSION, but:"
+    drun gcc --version
     exit 1
   fi
 fi
 
 if [ -n "$CLANG_VERSION" ]; then
-  if !(drun clang --version | grep -qF "$CLANG_VERSION"); then
-    echo "CLANG_VERSION=$CLANG_VERSION, but clang --version reports: $(drun clang --version)"
+  if !(drun clang --version 2>/dev/null | grep -qF "$CLANG_VERSION"); then
+    echo "CLANG_VERSION=$CLANG_VERSION, but:"
+    drun clang --version
     exit 1
   fi
 fi
