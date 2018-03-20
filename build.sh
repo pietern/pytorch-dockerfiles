@@ -29,6 +29,9 @@ fi
 # configuration, so we hardcode everything here rather than do it
 # from scratch
 case "$image" in
+  pytorch-linux-trusty-py2.7.9)
+    TRAVIS_PYTHON_VERSION=2.7.9
+    ;;
   pytorch-linux-trusty-py2.7)
     TRAVIS_PYTHON_VERSION=2.7
     ;;
@@ -99,3 +102,46 @@ docker build \
        -f $(dirname ${DOCKERFILE})/Dockerfile \
        "$@" \
        .
+
+function drun() {
+  docker run --rm "$image" $*
+}
+
+if [[ "$OS" == "ubuntu" ]]; then
+  if !(drun lsb_release -a | grep -qF Ubuntu); then
+    echo "OS=ubuntu, but lsb_release reports: $(drun lsb_release -a)"
+    exit 1
+  fi
+  if !(drun lsb_release -a | grep -qF "$UBUNTU_VERSION"); then
+    echo "UBUNTU_VERSION=$UBUNTU_VERSION, but lsb_release reports: $(drun lsb_release -a)"
+    exit 1
+  fi
+fi
+
+if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
+  if !(drun python --version | grep -qF "Python $TRAVIS_PYTHON_VERSION"); then
+    echo "TRAVIS_PYTHON_VERSION=$TRAVIS_PYTHON_VERSION, but python --version reports: $(drun python --version)"
+    exit 1
+  fi
+fi
+
+if [ -n "$ANACONDA_VERSION" ]; then
+  if !(drun python --version | grep -qF "Python $ANACONDA_VERSION"); then
+    echo "ANACONDA_VERSION=$ANACONDA_VERSION, but python --version reports: $(drun python --version)"
+    exit 1
+  fi
+fi
+
+if [ -n "$GCC_VERSION" ]; then
+  if !(drun gcc --version | grep -qF "$GCC_VERSION"); then
+    echo "GCC_VERSION=$GCC_VERSION, but gcc --version reports: $(drun gcc --version)"
+    exit 1
+  fi
+fi
+
+if [ -n "$CLANG_VERSION" ]; then
+  if !(drun clang --version | grep -qF "$CLANG_VERSION"); then
+    echo "CLANG_VERSION=$CLANG_VERSION, but clang --version reports: $(drun clang --version)"
+    exit 1
+  fi
+fi
