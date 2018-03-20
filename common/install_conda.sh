@@ -42,6 +42,9 @@ if [ -n "$ANACONDA_VERSION" ]; then
   update-alternatives --install /usr/bin/conda conda "/opt/conda/bin/conda" 50
   update-alternatives --install /usr/bin/activate activate "/opt/conda/bin/activate" 50
 
+  # Track latest conda update
+  as_jenkins conda update -n base conda
+
   # Install our favorite conda packages
   as_jenkins conda install -q -y mkl mkl-include numpy pyyaml pillow
   as_jenkins conda install -q -y nnpack -c killeent

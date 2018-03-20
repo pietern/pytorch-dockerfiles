@@ -111,12 +111,12 @@ function drun() {
 }
 
 if [[ "$OS" == "ubuntu" ]]; then
-  if !(drun lsb_release -a 2>/dev/null | grep -qF Ubuntu); then
+  if !(drun lsb_release -a 2>&1 | grep -qF Ubuntu); then
     echo "OS=ubuntu, but:"
     drun lsb_release -a
     exit 1
   fi
-  if !(drun lsb_release -a 2>/dev/null | grep -qF "$UBUNTU_VERSION"); then
+  if !(drun lsb_release -a 2>&1 | grep -qF "$UBUNTU_VERSION"); then
     echo "UBUNTU_VERSION=$UBUNTU_VERSION, but:"
     drun lsb_release -a
     exit 1
@@ -124,15 +124,20 @@ if [[ "$OS" == "ubuntu" ]]; then
 fi
 
 if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
-  if !(drun python --version 2>&1 1>/dev/null | grep -qF "Python $TRAVIS_PYTHON_VERSION"); then
-    echo "TRAVIS_PYTHON_VERSION=$TRAVIS_PYTHON_VERSION, but:"
+  if [[ "$TRAVIS_PYTHON_VERSION" != nightly ]]; then
+    if !(drun python --version 2>&1 | grep -qF "Python $TRAVIS_PYTHON_VERSION"); then
+      echo "TRAVIS_PYTHON_VERSION=$TRAVIS_PYTHON_VERSION, but:"
+      drun python --version
+      exit 1
+    fi
+  else
+    echo "Please manually check nightly is OK:"
     drun python --version
-    exit 1
   fi
 fi
 
 if [ -n "$ANACONDA_VERSION" ]; then
-  if !(drun python --version 2>&1 1>/dev/null | grep -qF "Python $ANACONDA_VERSION"); then
+  if !(drun python --version 2>&1 | grep -qF "Python $ANACONDA_VERSION"); then
     echo "ANACONDA_VERSION=$ANACONDA_VERSION, but:"
     drun python --version
     exit 1
@@ -140,7 +145,7 @@ if [ -n "$ANACONDA_VERSION" ]; then
 fi
 
 if [ -n "$GCC_VERSION" ]; then
-  if !(drun gcc --version 2>/dev/null | grep -qF "$GCC_VERSION"); then
+  if !(drun gcc --version 2>&1 | grep -q " $GCC_VERSION\\W"); then
     echo "GCC_VERSION=$GCC_VERSION, but:"
     drun gcc --version
     exit 1
@@ -148,7 +153,7 @@ if [ -n "$GCC_VERSION" ]; then
 fi
 
 if [ -n "$CLANG_VERSION" ]; then
-  if !(drun clang --version 2>/dev/null | grep -qF "$CLANG_VERSION"); then
+  if !(drun clang --version 2>&1 | grep -qF "clang version $CLANG_VERSION"); then
     echo "CLANG_VERSION=$CLANG_VERSION, but:"
     drun clang --version
     exit 1
