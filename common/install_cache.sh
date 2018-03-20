@@ -27,7 +27,6 @@ if [ -n "$CUDA_VERSION" ]; then
   ln -sf "$(which ccache)" g++
   ln -sf "$(which ccache)" clang
   ln -sf "$(which ccache)" clang++
-  ln -sf "$(which ccache)" nvcc
   popd
 
 else
@@ -55,6 +54,5 @@ else
   write_sccache_stub g++
   write_sccache_stub clang
   write_sccache_stub clang++
-  write_sccache_stub nvcc
 
 fi
