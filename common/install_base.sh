@@ -9,6 +9,13 @@ if [ -n "${EC2:-}" ]; then
   perl -pi -e "s/${A}/${B}/g" /etc/apt/sources.list
 fi
 
+if [[ "$UBUNTU_VERSION" == "14.04" ]]; then
+  # cmake 2 is too old
+  CMAKE3=cmake3
+else
+  CMAKE3=cmake
+fi
+
 # Install common dependencies
 apt-get update
 # TODO: Some of these may not be necessary
@@ -19,7 +26,7 @@ apt-get install -y --no-install-recommends \
   automake \
   build-essential \
   ca-certificates \
-  cmake \
+  $CMAKE3 \
   curl \
   docbook-xml \
   docbook-xsl \
