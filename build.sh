@@ -85,7 +85,7 @@ if [ -n "${JENKINS:-}" ]; then
   JENKINS_GID=$(id -g jenkins)
 fi
 
-tmp_tag="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
+tmp_tag="tmp-$(cat /dev/urandom | tr -dc 'a-z' | fold -w 32 | head -n 1)"
 
 # Build image
 docker build \
