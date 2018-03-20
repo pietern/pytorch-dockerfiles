@@ -25,7 +25,8 @@ if [ -n "$ANACONDA_VERSION" ]; then
   as_jenkins() {
     # NB: unsetting the environment variables works around a conda bug
     # https://github.com/conda/conda/issues/6576
-    sudo -H -u jenkins env -u SUDO_UID -u SUDO_GID -u SUDO_COMMAND -u SUDO_USER $*
+    # NB: Pass on PATH and LD_LIBRARY_PATH to sudo invocation
+    sudo -H -u jenkins env -u SUDO_UID -u SUDO_GID -u SUDO_COMMAND -u SUDO_USER env "PATH=$PATH" "LD_LIBRARY_PATH=$LD_LIBRARY_PATH" $*
   }
 
   pushd /tmp
@@ -37,6 +38,8 @@ if [ -n "$ANACONDA_VERSION" ]; then
   # TODO: Consider using an ENV to set the PATH in the Dockerfile instead
   # Don't forget to register this in ld.so.  The benefit of this style,
   # however, is that it more closely tracks how normal users use conda
+  #
+  # NOTE: This doesn't get executed when you sudo
   echo "source /opt/conda/bin/activate" | as_jenkins tee ~jenkins/.bashrc
   source /opt/conda/bin/activate
 
