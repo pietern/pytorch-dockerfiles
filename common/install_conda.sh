@@ -37,6 +37,8 @@ if [ -n "$ANACONDA_VERSION" ]; then
 
   echo "/opt/conda/lib" > /etc/ld.so.conf.d/conda-python.conf
   ldconfig
+  sed -e 's|PATH="\(.*\)"|PATH="/opt/conda/bin:\1"|g' -i /etc/environment
+  export PATH="/opt/conda/bin:$PATH"
 
   # Track latest conda update
   as_jenkins conda update -n base conda

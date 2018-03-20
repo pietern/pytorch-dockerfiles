@@ -25,6 +25,8 @@ if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
 
   echo "/opt/python/$TRAVIS_PYTHON_VERSION/lib" > /etc/ld.so.conf.d/travis-python.conf
   ldconfig
+  sed -e 's|PATH="\(.*\)"|PATH="/opt/python/'"$TRAVIS_PYTHON_VERSION"'/bin:\1"|g' -i /etc/environment
+  export PATH="/opt/python/$TRAVIS_PYTHON_VERSION/bin:$PATH"
 
   python --version
   pip --version
