@@ -102,7 +102,7 @@ docker build \
        --build-arg "CUDA_VERSION=${CUDA_VERSION}" \
        --build-arg "CUDNN_VERSION=${CUDNN_VERSION}" \
        -f $(dirname ${DOCKERFILE})/Dockerfile \
-       -t "$tmp_tag"
+       -t "$tmp_tag" \
        "$@" \
        .
 
