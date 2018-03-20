@@ -25,8 +25,6 @@ if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
 
   echo "/opt/python/$TRAVIS_PYTHON_VERSION/lib" > /etc/ld.so.conf.d/travis-python.conf
   ldconfig
-  update-alternatives --install /usr/bin/python python "/opt/python/$TRAVIS_PYTHON_VERSION/bin/python" 50
-  update-alternatives --install /usr/bin/pip pip "/opt/python/$TRAVIS_PYTHON_VERSION/bin/pip" 50
 
   python --version
   pip --version

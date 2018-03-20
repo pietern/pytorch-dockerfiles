@@ -18,6 +18,7 @@ ADD ./common/install_user.sh install_user.sh
 RUN bash ./install_user.sh && rm install_user.sh
 
 # Install conda
+ENV PATH /opt/conda/bin:$PATH
 ARG ANACONDA_VERSION
 ADD ./common/install_conda.sh install_conda.sh
 RUN bash ./install_conda.sh && rm install_conda.sh
@@ -34,6 +35,7 @@ RUN bash ./install_gcc.sh && rm install_gcc.sh
 
 # Install non-standard Python versions (via Travis binaries)
 ARG TRAVIS_PYTHON_VERSION
+ENV PATH /opt/python/$TRAVIS_PYTHON_VERSION/bin:$PATH
 ADD ./common/install_travis_python.sh install_travis_python.sh
 RUN bash ./install_travis_python.sh && rm install_travis_python.sh
 
