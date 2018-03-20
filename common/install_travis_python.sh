@@ -14,20 +14,22 @@ if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
 
   # Download Python binary from Travis
   pushd tmp
-  as_jenkins wget https://s3.amazonaws.com/travis-python-archives/binaries/ubuntu/14.04/x86_64/python-$TRAVIS_PYTHON_VERSION.tar.bz2
+  as_jenkins wget --quiet https://s3.amazonaws.com/travis-python-archives/binaries/ubuntu/14.04/x86_64/python-$TRAVIS_PYTHON_VERSION.tar.bz2
   # NB: The tarball also comes with /home/travis virtualenv that we
   # don't care about.  (Maybe we should, but we've worked around the
   # "how do I install to python" issue by making this entire directory
   # user-writable "lol")
   # NB: Relative ordering of opt/python and flags matters
-  as_jenkins tar xvjf python-$TRAVIS_PYTHON_VERSION.tar.bz2 --strip-components=2 --directory /opt/python opt/python
+  as_jenkins tar xjf python-$TRAVIS_PYTHON_VERSION.tar.bz2 --strip-components=2 --directory /opt/python opt/python
   popd
 
   echo "/opt/python/$TRAVIS_PYTHON_VERSION/lib" > /etc/ld.so.conf.d/travis-python.conf
   ldconfig
   update-alternatives --install /usr/bin/python python "/opt/python/$TRAVIS_PYTHON_VERSION/bin/python" 50
+  update-alternatives --install /usr/bin/pip pip "/opt/python/$TRAVIS_PYTHON_VERSION/bin/pip" 50
 
-  as_jenkins which python
+  python --version
+  pip --version
 
   # Install pip from source.
   # The python-pip package on Ubuntu Trusty is old
@@ -42,12 +44,10 @@ if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
   rm -rf pip-9.0.1*
   popd
 
-  # For the numpy source build
-  apt-get update
-  apt-get install -y gfortran
-
   # Install pip packages
   as_jenkins pip install --upgrade pip
+
+  pip --version
 
   if [[ "$TRAVIS_PYTHON_VERSION" == nightly ]]; then
       # These two packages have broken Cythonizations uploaded

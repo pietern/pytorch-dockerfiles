@@ -24,6 +24,7 @@ apt-get install -y --no-install-recommends \
   docbook-xml \
   docbook-xsl \
   git \
+  gfortran \
   libatlas-base-dev \
   libiomp-dev \
   libyaml-dev \
