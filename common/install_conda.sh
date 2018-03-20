@@ -35,8 +35,9 @@ if [ -n "$ANACONDA_VERSION" ]; then
   as_jenkins ./"${CONDA_FILE}" -b -f -p "/opt/conda"
   popd
 
-  echo "/opt/conda/lib" > /etc/ld.so.conf.d/conda-python.conf
-  ldconfig
+  # NB: Don't do this, rely on the rpath to get it right
+  #echo "/opt/conda/lib" > /etc/ld.so.conf.d/conda-python.conf
+  #ldconfig
   sed -e 's|PATH="\(.*\)"|PATH="/opt/conda/bin:\1"|g' -i /etc/environment
   export PATH="/opt/conda/bin:$PATH"
 
