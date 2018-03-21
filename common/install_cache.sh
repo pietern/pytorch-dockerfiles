@@ -3,6 +3,7 @@
 set -ex
 
 mkdir -p /opt/cache/bin
+mkdir -p /opt/cache/lib
 sed -e 's|PATH="\(.*\)"|PATH="/opt/cache/bin:\1"|g' -i /etc/environment
 export PATH="/opt/cache/bin:$PATH"
 
@@ -31,12 +32,15 @@ if [ -n "$CUDA_VERSION" ]; then
   ln -sf "$(which ccache)" g++
   ln -sf "$(which ccache)" clang
   ln -sf "$(which ccache)" clang++
-  # NB: It is critical that we only install this symlink when
-  # CUDA really is available, as PyTorch uses nvcc presence to detect
-  # where CUDA is installed
-  if which nvcc > /dev/null; then
-      ln -sf "$(which ccache)" nvcc
-  fi
+  popd
+
+  pushd /opt/cache/lib
+  # TODO: This is a workaround for the fact that PyTorch's FindCUDA
+  # implementation cannot find nvcc if it is setup this way, because it
+  # appears to search for the nvcc in PATH, and use its path to infer
+  # where CUDA is installed.  Instead, we install an nvcc symlink outside
+  # of the PATH, and set CUDA_NVCC_EXECUTABLE so that we make use of it.
+  ln -sf "$(which ccache)" nvcc
   popd
 
 else
@@ -64,5 +68,8 @@ else
   write_sccache_stub g++
   write_sccache_stub clang
   write_sccache_stub clang++
+
+  # NB: When you add nvcc support, please see the notes in ccache about
+  # what you have to be careful about.
 
 fi

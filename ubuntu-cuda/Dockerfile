@@ -35,6 +35,7 @@ RUN bash ./install_travis_python.sh && rm install_travis_python.sh
 ADD ./common/install_cache.sh install_cache.sh
 ENV PATH /opt/cache/bin:$PATH
 RUN bash ./install_cache.sh && rm install_cache.sh
+ENV CUDA_NVCC_EXECUTABLE=/opt/cache/lib/nvcc
 
 # Include BUILD_ENVIRONMENT environment variable in image
 ARG BUILD_ENVIRONMENT
