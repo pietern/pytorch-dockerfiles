@@ -14,6 +14,12 @@ if [ -n "$CLANG_VERSION" ]; then
   update-alternatives --install /usr/bin/clang clang /usr/bin/clang-"$CLANG_VERSION" 50
   update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-"$CLANG_VERSION" 50
 
+  # clang's packaging is a little messed up (the runtime libs aren't
+  # added into the linker path), so give it a little help
+  clang_lib=("/usr/lib/llvm-$CLANG_VERSION/lib/clang/"*"/lib/linux")
+  echo "$clang_lib" > /etc/ld.so.conf.d/clang.conf
+  ldconfig
+
   # Cleanup package manager
   apt-get autoclean && apt-get clean
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
