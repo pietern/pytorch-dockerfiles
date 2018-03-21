@@ -11,9 +11,9 @@ fi
 
 if [[ "$UBUNTU_VERSION" == "14.04" ]]; then
   # cmake 2 is too old
-  $cmake3=cmake3
+  cmake3=cmake3
 else
-  $cmake3=cmake
+  cmake3=cmake
 fi
 
 # Install common dependencies
