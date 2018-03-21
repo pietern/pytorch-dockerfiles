@@ -24,7 +24,7 @@ if [ -n "$CUDA_VERSION" ]; then
   popd
 
   # Install ccache symlink wrappers
-  pushd /opt/cache
+  pushd /opt/cache/bin
   ln -sf "$(which ccache)" cc
   ln -sf "$(which ccache)" c++
   ln -sf "$(which ccache)" gcc
