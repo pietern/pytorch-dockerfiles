@@ -1,4 +1,4 @@
-ARG UBUNTU_VERSION (do this last, so we get priority in PATH)
+ARG UBUNTU_VERSION
 ARG CUDA_VERSION
 ARG CUDNN_VERSION
 
