@@ -44,21 +44,18 @@ if [ -n "$ANACONDA_VERSION" ]; then
   # Track latest conda update
   as_jenkins conda update -n base conda
 
-  # Install our favorite conda packages
-  as_jenkins conda install -q -y mkl mkl-include numpy pyyaml pillow
-  as_jenkins conda install -q -y nnpack -c killeent
-
+  # Install PyTorch conda deps, as per https://github.com/pytorch/pytorch README
+  as_jenkins conda install -q -y numpy pyyaml mkl mkl-include setuptools cmake cffi typing
   if [[ "$CUDA_VERSION" == 8.0* ]]; then
     as_jenkins conda install -q -y magma-cuda80 -c soumith
   elif [[ "$CUDA_VERSION" == 9.0* ]]; then
     as_jenkins conda install -q -y magma-cuda90 -c soumith
   fi
 
+  # TODO: This isn't working atm
+  as_jenkins conda install -q -y nnpack -c killeent
+
   # Install some other packages
   # TODO: Why is scipy pinned
   as_jenkins pip install -q pytest scipy==0.19.1 scikit-image
-
-  # Cleanup package manager
-  apt-get autoclean && apt-get clean
-  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 fi

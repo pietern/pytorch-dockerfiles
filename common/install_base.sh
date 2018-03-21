@@ -11,27 +11,28 @@ fi
 
 if [[ "$UBUNTU_VERSION" == "14.04" ]]; then
   # cmake 2 is too old
-  CMAKE3=cmake3
+  $cmake3=cmake3
 else
-  CMAKE3=cmake
+  $cmake3=cmake
 fi
 
 # Install common dependencies
 apt-get update
 # TODO: Some of these may not be necessary
+# TODO: libiomp also gets installed by conda, aka there's a conflict
+ccache_deps="asciidoc docbook-xml docbook-xsl xsltproc"
+numpy_deps="gfortran"
 apt-get install -y --no-install-recommends \
+  $ccache_deps \
+  $numpy_deps \
+  $cmake3 \
   apt-transport-https \
-  asciidoc \
   autoconf \
   automake \
   build-essential \
   ca-certificates \
-  $CMAKE3 \
   curl \
-  docbook-xml \
-  docbook-xsl \
   git \
-  gfortran \
   libatlas-base-dev \
   libiomp-dev \
   libyaml-dev \
@@ -44,8 +45,7 @@ apt-get install -y --no-install-recommends \
   software-properties-common \
   sudo \
   wget \
-  valgrind \
-  xsltproc
+  valgrind
 
 # TODO: THIS IS A HACK!!!
 # distributed nccl(2) tests are a bit busted, see https://github.com/pytorch/pytorch/issues/5877

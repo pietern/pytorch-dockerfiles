@@ -2,6 +2,10 @@
 
 set -ex
 
+mkdir -p /opt/cache/bin
+sed -e 's|PATH="\(.*\)"|PATH="/opt/cache/bin:\1"|g' -i /etc/environment
+export PATH="/opt/cache/bin:$PATH"
+
 # Setup compiler cache
 if [ -n "$CUDA_VERSION" ]; then
   # If CUDA is installed, we must use ccache, as sccache doesn't support
@@ -14,19 +18,25 @@ if [ -n "$CUDA_VERSION" ]; then
   pushd ccache
   # Disable developer mode, so we squelch -Werror
   ./autogen.sh
-  ./configure --prefix=/usr/local
+  ./configure --prefix=/opt/cache
   make "-j$(nproc)" install
   popd
   popd
 
   # Install ccache symlink wrappers
-  pushd /usr/local/bin
+  pushd /opt/cache
   ln -sf "$(which ccache)" cc
   ln -sf "$(which ccache)" c++
   ln -sf "$(which ccache)" gcc
   ln -sf "$(which ccache)" g++
   ln -sf "$(which ccache)" clang
   ln -sf "$(which ccache)" clang++
+  # NB: It is critical that we only install this symlink when
+  # CUDA really is available, as PyTorch uses nvcc presence to detect
+  # where CUDA is installed
+  if which nvcc > /dev/null; then
+      ln -sf "$(which ccache)" nvcc
+  fi
   popd
 
 else
@@ -40,12 +50,12 @@ else
   SCCACHE_FILE="$SCCACHE_BASE.tar.gz"
   wget -q "$SCCACHE_BASE_URL/$SCCACHE_VERSION/$SCCACHE_FILE"
   tar xzf $SCCACHE_FILE
-  mv "$SCCACHE_BASE/sccache" /usr/local/bin
+  mv "$SCCACHE_BASE/sccache" /opt/cache/bin
   popd
 
   function write_sccache_stub() {
-    printf "#!/bin/sh\nexec sccache /usr/bin/$1 \$*" > "/usr/local/bin/$1"
-    chmod a+x "/usr/local/bin/$1"
+    printf "#!/bin/sh\nexec sccache $(which $1) \$*" > "/opt/cache/bin/$1"
+    chmod a+x "/opt/cache/bin/$1"
   }
 
   write_sccache_stub cc

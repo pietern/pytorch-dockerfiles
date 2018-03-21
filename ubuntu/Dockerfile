@@ -11,10 +11,6 @@ ARG EC2
 ADD ./common/install_base.sh install_base.sh
 RUN bash ./install_base.sh && rm install_base.sh
 
-# Install ccache/sccache
-ADD ./common/install_cache.sh install_cache.sh
-RUN bash ./install_cache.sh && rm install_cache.sh
-
 # Install user
 ADD ./common/install_user.sh install_user.sh
 RUN bash ./install_user.sh && rm install_user.sh
@@ -40,6 +36,11 @@ ARG TRAVIS_PYTHON_VERSION
 ENV PATH /opt/python/$TRAVIS_PYTHON_VERSION/bin:$PATH
 ADD ./common/install_travis_python.sh install_travis_python.sh
 RUN bash ./install_travis_python.sh && rm install_travis_python.sh
+
+# Install ccache/sccache (do this last, so we get priority in PATH)
+ADD ./common/install_cache.sh install_cache.sh
+ENV PATH /opt/cache/bin:$PATH
+RUN bash ./install_cache.sh && rm install_cache.sh
 
 # Include BUILD_ENVIRONMENT environment variable in image
 ARG BUILD_ENVIRONMENT
