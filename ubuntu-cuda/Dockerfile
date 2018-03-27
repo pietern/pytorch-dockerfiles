@@ -49,4 +49,5 @@ ENV TORCH_NVCC_FLAGS "-Xfatbin -compress-all"
 ENV OMP_NUM_THREADS 4
 ENV MKL_NUM_THREADS 4
 
+USER jenkins
 CMD ["bash"]
