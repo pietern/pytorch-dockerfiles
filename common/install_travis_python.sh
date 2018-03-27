@@ -78,10 +78,7 @@ if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
       pillow \
       typing
 
-  # MKL library from pip does not support Python 2.7.9
-  if [[ "$TRAVIS_PYTHON_VERSION" != 2.7.9 ]]; then
-      as_jenkins pip install mkl
-  fi
+  as_jenkins pip install mkl mkl-devel
 
   # SciPy does not support Python 3.7
   if [[ "$TRAVIS_PYTHON_VERSION" != nightly ]]; then
