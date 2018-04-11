@@ -6,6 +6,7 @@ if [ -n "$CLANG_VERSION" ]; then
 
   apt-get update
   apt-get install -y --no-install-recommends clang-"$CLANG_VERSION"
+  apt-get install -y --no-install-recommends llvm-"$CLANG_VERSION"
 
   # Use update-alternatives to make this version the default
   # TODO: Decide if overriding gcc as well is a good idea
