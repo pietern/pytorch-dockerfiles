@@ -36,6 +36,8 @@ ADD ./common/install_cache.sh install_cache.sh
 ENV PATH /opt/cache/bin:$PATH
 RUN bash ./install_cache.sh && rm install_cache.sh
 ENV CUDA_NVCC_EXECUTABLE=/opt/cache/lib/nvcc
+# sccache could get stuck if too many jobs are run concurrently
+ENV MAX_JOBS 8
 
 # Include BUILD_ENVIRONMENT environment variable in image
 ARG BUILD_ENVIRONMENT
