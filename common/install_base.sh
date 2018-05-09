@@ -45,7 +45,8 @@ apt-get install -y --no-install-recommends \
   software-properties-common \
   sudo \
   wget \
-  valgrind
+  valgrind \
+  vim
 
 # TODO: THIS IS A HACK!!!
 # distributed nccl(2) tests are a bit busted, see https://github.com/pytorch/pytorch/issues/5877
