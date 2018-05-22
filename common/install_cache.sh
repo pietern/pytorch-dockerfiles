@@ -30,6 +30,6 @@ if [ -n "$CUDA_VERSION" ]; then
   # where CUDA is installed.  Instead, we install an nvcc symlink outside
   # of the PATH, and set CUDA_NVCC_EXECUTABLE so that we make use of it.
 
-  printf "#!/bin/sh\nexec sccache $(which nvcc) \$*" > /opt/cache/lib/nvcc
+  printf "#!/bin/sh\nexec sccache $(which nvcc) \"\$@\"" > /opt/cache/lib/nvcc
   chmod a+x /opt/cache/lib/nvcc
 fi
