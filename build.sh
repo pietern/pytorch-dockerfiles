@@ -77,6 +77,12 @@ case "$image" in
     CUDNN_VERSION=7
     ANACONDA_VERSION=3
     ;;
+  pytorch-linux-xenial-cuda9.2-cudnn7-py3-gcc7.3)
+    CUDA_VERSION=9.2
+    CUDNN_VERSION=7
+    ANACONDA_VERSION=3
+    GCC_VERSION=7
+    ;;
   pytorch-linux-xenial-py3-clang5-asan)
     ANACONDA_VERSION=3
     CLANG_VERSION=5.0
