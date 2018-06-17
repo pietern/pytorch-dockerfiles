@@ -50,6 +50,10 @@ case "$image" in
     ANACONDA_VERSION=3
     GCC_VERSION=7
     ;;
+  pytorch-linux-trusty-py3.6-gcc7.3)
+    ANACONDA_VERSION=3
+    GCC_VERSION=7
+    ;;
   pytorch-linux-trusty-pynightly)
     TRAVIS_PYTHON_VERSION=nightly
     ;;
