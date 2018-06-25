@@ -25,7 +25,7 @@ numpy_deps="gfortran"
 apt-get install -y --no-install-recommends \
   $ccache_deps \
   $numpy_deps \
-  $cmake3 \
+  ${cmake3}=3.5\* \
   apt-transport-https \
   autoconf \
   automake \

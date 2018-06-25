@@ -45,7 +45,9 @@ if [ -n "$ANACONDA_VERSION" ]; then
   as_jenkins conda update -n base conda
 
   # Install PyTorch conda deps, as per https://github.com/pytorch/pytorch README
-  as_jenkins conda install -q -y numpy pyyaml mkl mkl-include setuptools cmake cffi typing
+  # DO NOT install cmake here as it would install a version newer than 3.5, but
+  # we want to pin to version 3.5.
+  as_jenkins conda install -q -y numpy pyyaml mkl mkl-include setuptools cffi typing
   if [[ "$CUDA_VERSION" == 8.0* ]]; then
     as_jenkins conda install -q -y magma-cuda80 -c soumith
   elif [[ "$CUDA_VERSION" == 9.0* ]]; then
