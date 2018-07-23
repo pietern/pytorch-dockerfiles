@@ -82,7 +82,7 @@ if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
 
   # SciPy does not support Python 3.7
   if [[ "$TRAVIS_PYTHON_VERSION" != nightly ]]; then
-      as_jenkins pip install scipy==0.19.1 scikit-image
+      as_jenkins pip install scipy==1.1.0 scikit-image
   fi
 
   # Cleanup package manager
