@@ -52,6 +52,10 @@ if [ -n "$ANACONDA_VERSION" ]; then
     as_jenkins conda install -q -y magma-cuda80 -c soumith
   elif [[ "$CUDA_VERSION" == 9.0* ]]; then
     as_jenkins conda install -q -y magma-cuda90 -c soumith
+  elif [[ "$CUDA_VERSION" == 9.1* ]]; then
+    as_jenkins conda install -q -y magma-cuda91 -c soumith
+  elif [[ "$CUDA_VERSION" == 9.2* ]]; then
+    as_jenkins conda install -q -y magma-cuda92 -c soumith
   fi
 
   # TODO: This isn't working atm
@@ -59,5 +63,5 @@ if [ -n "$ANACONDA_VERSION" ]; then
 
   # Install some other packages
   # TODO: Why is scipy pinned
-  as_jenkins pip install -q pytest scipy==1.1.0 scikit-image librosa
+  as_jenkins pip install -q pytest scipy==1.1.0 scikit-image librosa>=0.6.2
 fi
