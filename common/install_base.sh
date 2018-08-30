@@ -51,7 +51,7 @@ apt-get install -y --no-install-recommends \
 # TODO: THIS IS A HACK!!!
 # distributed nccl(2) tests are a bit busted, see https://github.com/pytorch/pytorch/issues/5877
 if dpkg -s libnccl-dev; then
-  apt-get remove -y libnccl-dev libnccl2
+  apt-get remove -y libnccl-dev libnccl2 --allow-change-held-packages
 fi
 
 # Cleanup package manager
