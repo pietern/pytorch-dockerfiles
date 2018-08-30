@@ -63,5 +63,5 @@ if [ -n "$ANACONDA_VERSION" ]; then
 
   # Install some other packages
   # TODO: Why is scipy pinned
-  as_jenkins pip install -q pytest scipy==1.1.0 scikit-image librosa
+  as_jenkins pip install -q pytest scipy==1.1.0 scikit-image librosa>=0.6.2
 fi
