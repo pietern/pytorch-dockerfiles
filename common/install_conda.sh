@@ -3,10 +3,12 @@
 set -ex
 
 # Optionally install conda
-if [ -n "$ANACONDA_VERSION" ]; then
+if [ -n "$ANACONDA_PYTHON_VERSION" ]; then
   BASE_URL="https://repo.continuum.io/miniconda"
 
-  case "$ANACONDA_VERSION" in
+  MAJOR_PYTHON_VERSION=$(echo "$ANACONDA_PYTHON_VERSION" | cut -d . -f 1)
+
+  case "$MAJOR_PYTHON_VERSION" in
     2)
       CONDA_FILE="Miniconda2-latest-Linux-x86_64.sh"
     ;;
@@ -14,7 +16,7 @@ if [ -n "$ANACONDA_VERSION" ]; then
       CONDA_FILE="Miniconda3-latest-Linux-x86_64.sh"
     ;;
     *)
-      echo "Unsupported ANACONDA_VERSION: $ANACONDA_VERSION"
+      echo "Unsupported ANACONDA_PYTHON_VERSION: $ANACONDA_PYTHON_VERSION"
       exit 1
       ;;
   esac
@@ -44,22 +46,30 @@ if [ -n "$ANACONDA_VERSION" ]; then
   # Track latest conda update
   as_jenkins conda update -n base conda
 
+  # Install correct Python version
+  as_jenkins conda install python="$ANACONDA_PYTHON_VERSION"
+
+  conda_install() {
+    # Ensure that the install command don't upgrade/downgrade Python
+    as_jenkins conda install python="$ANACONDA_PYTHON_VERSION" $*
+  }
+
   # Install PyTorch conda deps, as per https://github.com/pytorch/pytorch README
   # DO NOT install cmake here as it would install a version newer than 3.5, but
   # we want to pin to version 3.5.
-  as_jenkins conda install -q -y numpy pyyaml mkl mkl-include setuptools cffi typing
+  conda_install -q -y numpy pyyaml mkl mkl-include setuptools cffi typing
   if [[ "$CUDA_VERSION" == 8.0* ]]; then
-    as_jenkins conda install -q -y magma-cuda80 -c soumith
+    conda_install -q -y magma-cuda80 -c soumith
   elif [[ "$CUDA_VERSION" == 9.0* ]]; then
-    as_jenkins conda install -q -y magma-cuda90 -c soumith
+    conda_install -q -y magma-cuda90 -c soumith
   elif [[ "$CUDA_VERSION" == 9.1* ]]; then
-    as_jenkins conda install -q -y magma-cuda91 -c soumith
+    conda_install -q -y magma-cuda91 -c soumith
   elif [[ "$CUDA_VERSION" == 9.2* ]]; then
-    as_jenkins conda install -q -y magma-cuda92 -c soumith
+    conda_install -q -y magma-cuda92 -c soumith
   fi
 
   # TODO: This isn't working atm
-  as_jenkins conda install -q -y nnpack -c killeent
+  conda_install -q -y nnpack -c killeent
 
   # Install some other packages
   # TODO: Why is scipy pinned

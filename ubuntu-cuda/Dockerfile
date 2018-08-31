@@ -21,7 +21,7 @@ RUN bash ./install_user.sh && rm install_user.sh
 
 # Install conda
 ENV PATH /opt/conda/bin:$PATH
-ARG ANACONDA_VERSION
+ARG ANACONDA_PYTHON_VERSION
 ADD ./common/install_conda.sh install_conda.sh
 RUN bash ./install_conda.sh && rm install_conda.sh
 
