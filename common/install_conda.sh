@@ -51,25 +51,27 @@ if [ -n "$ANACONDA_PYTHON_VERSION" ]; then
 
   conda_install() {
     # Ensure that the install command don't upgrade/downgrade Python
-    as_jenkins conda install python="$ANACONDA_PYTHON_VERSION" $*
+    # This should be called as
+    #   conda_install pkg1 pkg2 ... [-c channel]
+    as_jenkins conda install -q -y python="$ANACONDA_PYTHON_VERSION" $*
   }
 
   # Install PyTorch conda deps, as per https://github.com/pytorch/pytorch README
   # DO NOT install cmake here as it would install a version newer than 3.5, but
   # we want to pin to version 3.5.
-  conda_install -q -y numpy pyyaml mkl mkl-include setuptools cffi typing
+  conda_install numpy pyyaml mkl mkl-include setuptools cffi typing
   if [[ "$CUDA_VERSION" == 8.0* ]]; then
-    conda_install -q -y magma-cuda80 -c soumith
+    conda_install magma-cuda80 -c soumith
   elif [[ "$CUDA_VERSION" == 9.0* ]]; then
-    conda_install -q -y magma-cuda90 -c soumith
+    conda_install magma-cuda90 -c soumith
   elif [[ "$CUDA_VERSION" == 9.1* ]]; then
-    conda_install -q -y magma-cuda91 -c soumith
+    conda_install magma-cuda91 -c soumith
   elif [[ "$CUDA_VERSION" == 9.2* ]]; then
-    conda_install -q -y magma-cuda92 -c soumith
+    conda_install magma-cuda92 -c soumith
   fi
 
   # TODO: This isn't working atm
-  conda_install -q -y nnpack -c killeent
+  conda_install nnpack -c killeent
 
   # Install some other packages
   # TODO: Why is scipy pinned
