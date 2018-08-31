@@ -39,19 +39,19 @@ case "$image" in
     TRAVIS_PYTHON_VERSION=3.5
     ;;
   pytorch-linux-trusty-py3.6-gcc4.8)
-    ANACONDA_VERSION=3
+    ANACONDA_PYTHON_VERSION=3.6
     GCC_VERSION=4.8
     ;;
   pytorch-linux-trusty-py3.6-gcc5.4)
-    ANACONDA_VERSION=3
+    ANACONDA_PYTHON_VERSION=3.6
     GCC_VERSION=5
     ;;
   pytorch-linux-trusty-py3.6-gcc7.2)
-    ANACONDA_VERSION=3
+    ANACONDA_PYTHON_VERSION=3.6
     GCC_VERSION=7
     ;;
   pytorch-linux-trusty-py3.6-gcc7)
-    ANACONDA_VERSION=3
+    ANACONDA_PYTHON_VERSION=3.6
     GCC_VERSION=7
     ;;
   pytorch-linux-trusty-pynightly)
@@ -60,31 +60,31 @@ case "$image" in
   pytorch-linux-xenial-cuda8-cudnn6-py2)
     CUDA_VERSION=8.0
     CUDNN_VERSION=6
-    ANACONDA_VERSION=2
+    ANACONDA_PYTHON_VERSION=2.7
     ;;
   pytorch-linux-xenial-cuda8-cudnn6-py3)
     CUDA_VERSION=8.0
     CUDNN_VERSION=6
-    ANACONDA_VERSION=3
+    ANACONDA_PYTHON_VERSION=3.6
     ;;
   pytorch-linux-xenial-cuda9-cudnn7-py2)
     CUDA_VERSION=9.0
     CUDNN_VERSION=7
-    ANACONDA_VERSION=2
+    ANACONDA_PYTHON_VERSION=2.7
     ;;
   pytorch-linux-xenial-cuda9-cudnn7-py3)
     CUDA_VERSION=9.0
     CUDNN_VERSION=7
-    ANACONDA_VERSION=3
+    ANACONDA_PYTHON_VERSION=3.6
     ;;
   pytorch-linux-xenial-cuda9.2-cudnn7-py3-gcc7)
     CUDA_VERSION=9.2
     CUDNN_VERSION=7
-    ANACONDA_VERSION=3
+    ANACONDA_PYTHON_VERSION=3.6
     GCC_VERSION=7
     ;;
   pytorch-linux-xenial-py3-clang5-asan)
-    ANACONDA_VERSION=3
+    ANACONDA_PYTHON_VERSION=3.6
     CLANG_VERSION=5.0
     ;;
 esac
@@ -106,8 +106,8 @@ docker build \
        --build-arg "JENKINS_UID=${JENKINS_UID:-}" \
        --build-arg "JENKINS_GID=${JENKINS_GID:-}" \
        --build-arg "UBUNTU_VERSION=${UBUNTU_VERSION}" \
-       --build-arg "ANACONDA_VERSION=${ANACONDA_VERSION}" \
        --build-arg "CLANG_VERSION=${CLANG_VERSION}" \
+       --build-arg "ANACONDA_PYTHON_VERSION=${ANACONDA_PYTHON_VERSION}" \
        --build-arg "TRAVIS_PYTHON_VERSION=${TRAVIS_PYTHON_VERSION}" \
        --build-arg "GCC_VERSION=${GCC_VERSION}" \
        --build-arg "CUDA_VERSION=${CUDA_VERSION}" \
@@ -147,9 +147,9 @@ if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
   fi
 fi
 
-if [ -n "$ANACONDA_VERSION" ]; then
-  if !(drun python --version 2>&1 | grep -qF "Python $ANACONDA_VERSION"); then
-    echo "ANACONDA_VERSION=$ANACONDA_VERSION, but:"
+if [ -n "$ANACONDA_PYTHON_VERSION" ]; then
+  if !(drun python --version 2>&1 | grep -qF "Python $ANACONDA_PYTHON_VERSION"); then
+    echo "ANACONDA_PYTHON_VERSION=$ANACONDA_PYTHON_VERSION, but:"
     drun python --version
     exit 1
   fi
