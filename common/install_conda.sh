@@ -59,7 +59,7 @@ if [ -n "$ANACONDA_PYTHON_VERSION" ]; then
   # Install PyTorch conda deps, as per https://github.com/pytorch/pytorch README
   # DO NOT install cmake here as it would install a version newer than 3.5, but
   # we want to pin to version 3.5.
-  conda_install numpy pyyaml mkl mkl-include setuptools cffi typing
+  conda_install numpy pyyaml mkl mkl-include setuptools cffi typing future six
   if [[ "$CUDA_VERSION" == 8.0* ]]; then
     conda_install magma-cuda80 -c soumith
   elif [[ "$CUDA_VERSION" == 9.0* ]]; then
