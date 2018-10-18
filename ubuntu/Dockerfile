@@ -46,9 +46,5 @@ RUN bash ./install_cache.sh && rm install_cache.sh
 ARG BUILD_ENVIRONMENT
 ENV BUILD_ENVIRONMENT ${BUILD_ENVIRONMENT}
 
-# Other envvars
-ENV OMP_NUM_THREADS 4
-ENV MKL_NUM_THREADS 4
-
 USER jenkins
 CMD ["bash"]
