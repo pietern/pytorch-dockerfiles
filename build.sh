@@ -31,12 +31,15 @@ fi
 case "$image" in
   pytorch-linux-trusty-py2.7.9)
     TRAVIS_PYTHON_VERSION=2.7.9
+    GCC_VERSION=7
     ;;
   pytorch-linux-trusty-py2.7)
     TRAVIS_PYTHON_VERSION=2.7
+    GCC_VERSION=7
     ;;
   pytorch-linux-trusty-py3.5)
     TRAVIS_PYTHON_VERSION=3.5
+    GCC_VERSION=7
     ;;
   pytorch-linux-trusty-py3.6-gcc4.8)
     ANACONDA_PYTHON_VERSION=3.6
@@ -56,6 +59,7 @@ case "$image" in
     ;;
   pytorch-linux-trusty-pynightly)
     TRAVIS_PYTHON_VERSION=nightly
+    GCC_VERSION=7
     ;;
   pytorch-linux-xenial-cuda8-cudnn6-py2)
     CUDA_VERSION=8.0
