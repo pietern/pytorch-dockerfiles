@@ -31,11 +31,16 @@ ARG GCC_VERSION
 ADD ./common/install_gcc.sh install_gcc.sh
 RUN bash ./install_gcc.sh && rm install_gcc.sh
 
-# Install non-standard Python versions (via Travis binaries)
+# Install non-standard Python versions via Travis binaries
 ARG TRAVIS_PYTHON_VERSION
 ENV PATH /opt/python/$TRAVIS_PYTHON_VERSION/bin:$PATH
 ADD ./common/install_travis_python.sh install_travis_python.sh
 RUN bash ./install_travis_python.sh && rm install_travis_python.sh
+
+# Install non-standard Python versions via deadsnakes PPA
+ARG DEADSNAKES_PYTHON_VERSION
+ADD ./common/install_deadsnakes_python.sh install_deadsnakes_python.sh
+RUN bash ./install_deadsnakes_python.sh && rm install_deadsnakes_python.sh
 
 # Install ccache/sccache (do this last, so we get priority in PATH)
 ADD ./common/install_cache.sh install_cache.sh
