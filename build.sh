@@ -30,15 +30,15 @@ fi
 # from scratch
 case "$image" in
   pytorch-linux-trusty-py2.7.9)
-    DEADSNAKES_PYTHON_VERSION=2.7.9
+    TRAVIS_PYTHON_VERSION=2.7.9
     GCC_VERSION=7
     ;;
   pytorch-linux-trusty-py2.7)
-    DEADSNAKES_PYTHON_VERSION=2.7
+    TRAVIS_PYTHON_VERSION=2.7
     GCC_VERSION=7
     ;;
   pytorch-linux-trusty-py3.5)
-    DEADSNAKES_PYTHON_VERSION=3.5
+    TRAVIS_PYTHON_VERSION=3.5
     GCC_VERSION=7
     ;;
   pytorch-linux-trusty-py3.6-gcc4.8)
@@ -58,8 +58,7 @@ case "$image" in
     GCC_VERSION=7
     ;;
   pytorch-linux-trusty-pynightly)
-    # This is not technically a nightly...
-    DEADSNAKES_PYTHON_VERSION=3.7
+    TRAVIS_PYTHON_VERSION=nightly
     GCC_VERSION=7
     ;;
   pytorch-linux-xenial-cuda8-cudnn6-py2)
@@ -120,7 +119,6 @@ docker build \
        --build-arg "CLANG_VERSION=${CLANG_VERSION}" \
        --build-arg "ANACONDA_PYTHON_VERSION=${ANACONDA_PYTHON_VERSION}" \
        --build-arg "TRAVIS_PYTHON_VERSION=${TRAVIS_PYTHON_VERSION}" \
-       --build-arg "DEADSNAKES_PYTHON_VERSION=${DEADSNAKES_PYTHON_VERSION}" \
        --build-arg "GCC_VERSION=${GCC_VERSION}" \
        --build-arg "CUDA_VERSION=${CUDA_VERSION}" \
        --build-arg "CUDNN_VERSION=${CUDNN_VERSION}" \
@@ -150,19 +148,6 @@ if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
   if [[ "$TRAVIS_PYTHON_VERSION" != nightly ]]; then
     if !(drun python --version 2>&1 | grep -qF "Python $TRAVIS_PYTHON_VERSION"); then
       echo "TRAVIS_PYTHON_VERSION=$TRAVIS_PYTHON_VERSION, but:"
-      drun python --version
-      exit 1
-    fi
-  else
-    echo "Please manually check nightly is OK:"
-    drun python --version
-  fi
-fi
-
-if [ -n "$DEADSNAKES_PYTHON_VERSION" ]; then
-  if [[ "$DEADSNAKES_PYTHON_VERSION" != nightly ]]; then
-    if !(drun python --version 2>&1 | grep -qF "Python $DEADSNAKES_PYTHON_VERSION"); then
-      echo "DEADSNAKES_PYTHON_VERSION=$DEADSNAKES_PYTHON_VERSION, but:"
       drun python --version
       exit 1
     fi
