@@ -45,8 +45,19 @@ apt-get install -y --no-install-recommends \
   software-properties-common \
   sudo \
   wget \
-  valgrind \
   vim
+
+# Install Valgrind separately since the apt-get version is too old.
+mkdir valgrind_build && cd valgrind_build
+wget http://valgrind.org/downloads/valgrind-3.14.0.tar.bz2
+tar -xjf valgrind-3.14.0.tar.bz2
+cd valgrind-3.14.0
+./configure --prefix=/usr/local
+make
+sudo make install
+cd ../../
+rm -rf valgrind_build
+alias valgrind="/usr/local/bin/valgrind"
 
 # TODO: THIS IS A HACK!!!
 # distributed nccl(2) tests are a bit busted, see https://github.com/pytorch/pytorch/issues/5877
