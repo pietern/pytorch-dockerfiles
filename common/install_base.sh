@@ -34,6 +34,7 @@ apt-get install -y --no-install-recommends \
   curl \
   git \
   libatlas-base-dev \
+  libc6-dbg \
   libiomp-dev \
   libyaml-dev \
   libz-dev \
