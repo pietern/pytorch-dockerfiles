@@ -24,6 +24,7 @@ install_ubuntu() {
   # so we install that here if on 14.04
   # Ubuntu 14.04 also has cmake 2.8.12 as the default option, so we will
   # install cmake3 here and use cmake3.
+  apt-get update
   if [[ "$UBUNTU_VERSION" == 14.04 ]]; then
     apt-get install -y --no-install-recommends cmake3
     install_protobuf_26
