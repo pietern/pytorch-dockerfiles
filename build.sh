@@ -150,6 +150,9 @@ tmp_tag="tmp-$(cat /dev/urandom | tr -dc 'a-z' | fold -w 32 | head -n 1)"
 docker build \
        --no-cache \
        --build-arg "BUILD_ENVIRONMENT=${image}" \
+       --build-arg "PROTOBUF=${PROTOBUF:-}" \
+       --build-arg "DB=${DB:-}" \
+       --build-arg "VISION=${VISION:-}" \
        --build-arg "EC2=${EC2:-}" \
        --build-arg "JENKINS=${JENKINS:-}" \
        --build-arg "JENKINS_UID=${JENKINS_UID:-}" \
