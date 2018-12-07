@@ -37,6 +37,30 @@ ENV PATH /opt/python/$TRAVIS_PYTHON_VERSION/bin:$PATH
 ADD ./common/install_travis_python.sh install_travis_python.sh
 RUN bash ./install_travis_python.sh && rm install_travis_python.sh
 
+# (optional) Install protobuf for ONNX
+ARG PROTOBUF
+ADD ./common/install_protobuf.sh install_protobuf.sh
+RUN if [ -n "${PROTOBUF}" ]; then bash ./install_protobuf.sh; fi
+RUN rm install_protobuf.sh
+
+# (optional) Install database packages like LMDB and LevelDB
+ARG DB
+ADD ./common/install_db.sh install_db.sh
+RUN if [ -n "${DB}" ]; then bash ./install_db.sh; fi
+RUN rm install_db.sh
+
+# (optional) Install vision packages like OpenCV and ffmpeg
+ARG VISION
+ADD ./common/install_vision.sh install_vision.sh
+RUN if [ -n "${VISION}" ]; then bash ./install_vision.sh; fi
+RUN rm install_vision.sh
+
+# (optional) Install Android NDK
+ARG ANDROID
+ADD ./common/install_android.sh install_android.sh
+RUN if [ -n "${ANDROID}" ]; then bash ./install_android.sh; fi
+RUN rm install_android.sh
+
 # Install ccache/sccache (do this last, so we get priority in PATH)
 ADD ./common/install_cache.sh install_cache.sh
 ENV PATH /opt/cache/bin:$PATH
