@@ -20,13 +20,6 @@ install_protobuf_26() {
 }
 
 install_ubuntu() {
-  # Use AWS mirror if running in EC2
-  if [ -n "${EC2:-}" ]; then
-    A="archive.ubuntu.com"
-    B="us-east-1.ec2.archive.ubuntu.com"
-    perl -pi -e "s/${A}/${B}/g" /etc/apt/sources.list
-  fi
-
   # Ubuntu 14.04 ships with protobuf 2.5, but ONNX needs protobuf >= 2.6
   # so we install that here if on 14.04
   # Ubuntu 14.04 also has cmake 2.8.12 as the default option, so we will
