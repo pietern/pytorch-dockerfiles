@@ -32,70 +32,109 @@ case "$image" in
   pytorch-linux-trusty-py2.7.9)
     TRAVIS_PYTHON_VERSION=2.7.9
     GCC_VERSION=7
+    # Do not install PROTOBUF, DB, and VISION as a test
     ;;
   pytorch-linux-trusty-py2.7)
     TRAVIS_PYTHON_VERSION=2.7
     GCC_VERSION=7
+    PROTOBUF=yes
+    DB=yes
+    VISION=yes
     ;;
   pytorch-linux-trusty-py3.5)
     TRAVIS_PYTHON_VERSION=3.5
     GCC_VERSION=7
+    # Do not install PROTOBUF, DB, and VISION as a test
     ;;
   pytorch-linux-trusty-py3.6-gcc4.8)
     ANACONDA_PYTHON_VERSION=3.6
     GCC_VERSION=4.8
+    PROTOBUF=yes
+    DB=yes
+    VISION=yes
     ;;
   pytorch-linux-trusty-py3.6-gcc5.4)
     ANACONDA_PYTHON_VERSION=3.6
     GCC_VERSION=5
+    PROTOBUF=yes
+    DB=yes
+    VISION=yes
     ;;
   pytorch-linux-trusty-py3.6-gcc7.2)
     ANACONDA_PYTHON_VERSION=3.6
     GCC_VERSION=7
+    # Do not install PROTOBUF, DB, and VISION as a test
     ;;
   pytorch-linux-trusty-py3.6-gcc7)
     ANACONDA_PYTHON_VERSION=3.6
     GCC_VERSION=7
+    PROTOBUF=yes
+    DB=yes
+    VISION=yes
     ;;
   pytorch-linux-trusty-pynightly)
     TRAVIS_PYTHON_VERSION=nightly
     GCC_VERSION=7
+    PROTOBUF=yes
+    DB=yes
+    VISION=yes
     ;;
   pytorch-linux-xenial-cuda8-cudnn6-py2)
     CUDA_VERSION=8.0
     CUDNN_VERSION=6
     ANACONDA_PYTHON_VERSION=2.7
+    PROTOBUF=yes
+    DB=yes
+    VISION=yes
     ;;
   pytorch-linux-xenial-cuda8-cudnn6-py3)
     CUDA_VERSION=8.0
     CUDNN_VERSION=6
     ANACONDA_PYTHON_VERSION=3.6
+    PROTOBUF=yes
+    DB=yes
+    VISION=yes
     ;;
   pytorch-linux-xenial-cuda9-cudnn7-py2)
     CUDA_VERSION=9.0
     CUDNN_VERSION=7
     ANACONDA_PYTHON_VERSION=2.7
+    PROTOBUF=yes
+    DB=yes
+    VISION=yes
     ;;
   pytorch-linux-xenial-cuda9-cudnn7-py3)
     CUDA_VERSION=9.0
     CUDNN_VERSION=7
     ANACONDA_PYTHON_VERSION=3.6
+    PROTOBUF=yes
+    DB=yes
+    VISION=yes
     ;;
   pytorch-linux-xenial-cuda9.2-cudnn7-py3-gcc7)
     CUDA_VERSION=9.2
     CUDNN_VERSION=7
     ANACONDA_PYTHON_VERSION=3.6
     GCC_VERSION=7
+    PROTOBUF=yes
+    DB=yes
+    VISION=yes
     ;;
   pytorch-linux-xenial-cuda10-cudnn7-py3-gcc7)
     CUDA_VERSION=10.0
     CUDNN_VERSION=7
     ANACONDA_PYTHON_VERSION=3.6
     GCC_VERSION=7
+    PROTOBUF=yes
+    DB=yes
+    VISION=yes
     ;;
   pytorch-linux-xenial-py3-clang5-asan)
     ANACONDA_PYTHON_VERSION=3.6
     CLANG_VERSION=5.0
+    PROTOBUF=yes
+    DB=yes
+    VISION=yes
     ;;
 esac
 
@@ -111,6 +150,9 @@ tmp_tag="tmp-$(cat /dev/urandom | tr -dc 'a-z' | fold -w 32 | head -n 1)"
 docker build \
        --no-cache \
        --build-arg "BUILD_ENVIRONMENT=${image}" \
+       --build-arg "PROTOBUF=${PROTOBUF:-}" \
+       --build-arg "DB=${DB:-}" \
+       --build-arg "VISION=${VISION:-}" \
        --build-arg "EC2=${EC2:-}" \
        --build-arg "JENKINS=${JENKINS:-}" \
        --build-arg "JENKINS_UID=${JENKINS_UID:-}" \
