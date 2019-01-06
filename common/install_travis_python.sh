@@ -82,8 +82,11 @@ if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
 
   # SciPy does not support Python 3.7
   if [[ "$TRAVIS_PYTHON_VERSION" != nightly ]]; then
-      as_jenkins pip install scipy==1.1.0 scikit-image
+      as_jenkins pip install scipy==1.1.0 scikit-image librosa>=0.6.2
   fi
+
+  # Install psutil for dataloader tests
+  as_jenkins pip install psutil
 
   # Cleanup package manager
   apt-get autoclean && apt-get clean
