@@ -60,10 +60,17 @@ ENV INSTALLED_VISION ${VISION}
 
 # (optional) Install Android NDK
 ARG ANDROID
+ARG ANDROID_NDK
 ADD ./common/install_android.sh install_android.sh
 RUN if [ -n "${ANDROID}" ]; then bash ./install_android.sh; fi
 RUN rm install_android.sh
 ENV INSTALLED_ANDROID ${ANDROID}
+
+# (optional) Install non-default CMake version
+ARG CMAKE_VERSION
+ADD ./common/install_cmake.sh install_cmake.sh
+RUN if [ -n "${CMAKE_VERSION}" ]; then bash ./install_cmake.sh; fi
+RUN rm install_cmake.sh
 
 # Install ccache/sccache (do this last, so we get priority in PATH)
 ADD ./common/install_cache.sh install_cache.sh

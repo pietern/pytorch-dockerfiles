@@ -57,13 +57,6 @@ RUN if [ -n "${VISION}" ]; then bash ./install_vision.sh; fi
 RUN rm install_vision.sh
 ENV INSTALLED_VISION ${VISION}
 
-# (optional) Install Android NDK
-ARG ANDROID
-ADD ./common/install_android.sh install_android.sh
-RUN if [ -n "${ANDROID}" ]; then bash ./install_android.sh; fi
-RUN rm install_android.sh
-ENV INSTALLED_ANDROID ${ANDROID}
-
 # Install ccache/sccache (do this last, so we get priority in PATH)
 ADD ./common/install_cache.sh install_cache.sh
 ENV PATH /opt/cache/bin:$PATH
