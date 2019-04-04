@@ -136,6 +136,14 @@ case "$image" in
     DB=yes
     VISION=yes
     ;;
+  pytorch-linux-xenial-py3-clang5-android-ndk-r19c)
+    ANACONDA_PYTHON_VERSION=3.6
+    CLANG_VERSION=5.0
+    PROTOBUF=yes
+    ANDROID=yes
+    ANDROID_NDK_VERSION=r19c
+    CMAKE_VERSION=3.6.3
+    ;;
 esac
 
 # Set Jenkins UID and GID if running Jenkins
@@ -164,6 +172,9 @@ docker build \
        --build-arg "GCC_VERSION=${GCC_VERSION}" \
        --build-arg "CUDA_VERSION=${CUDA_VERSION}" \
        --build-arg "CUDNN_VERSION=${CUDNN_VERSION}" \
+       --build-arg "ANDROID=${ANDROID}" \
+       --build-arg "ANDROID_NDK=${ANDROID_NDK_VERSION}" \
+       --build-arg "CMAKE_VERSION=${CMAKE_VERSION:-}" \
        -f $(dirname ${DOCKERFILE})/Dockerfile \
        -t "$tmp_tag" \
        "$@" \
