@@ -15,6 +15,11 @@ RUN bash ./install_base.sh && rm install_base.sh
 ADD ./common/install_user.sh install_user.sh
 RUN bash ./install_user.sh && rm install_user.sh
 
+# Install katex
+ARG KATEX
+ADD ./common/install_katex.sh install_katex.sh
+RUN bash ./install_katex.sh && rm install_katex.sh
+
 # Install conda
 ENV PATH /opt/conda/bin:$PATH
 ARG ANACONDA_PYTHON_VERSION

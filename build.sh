@@ -110,6 +110,7 @@ case "$image" in
     PROTOBUF=yes
     DB=yes
     VISION=yes
+    KATEX=yes
     ;;
   pytorch-linux-xenial-cuda9.2-cudnn7-py3-gcc7)
     CUDA_VERSION=9.2
@@ -175,6 +176,7 @@ docker build \
        --build-arg "ANDROID=${ANDROID}" \
        --build-arg "ANDROID_NDK=${ANDROID_NDK_VERSION}" \
        --build-arg "CMAKE_VERSION=${CMAKE_VERSION:-}" \
+       --build-arg "KATEX=${KATEX:-}" \
        -f $(dirname ${DOCKERFILE})/Dockerfile \
        -t "$tmp_tag" \
        "$@" \
@@ -230,6 +232,14 @@ if [ -n "$CLANG_VERSION" ]; then
   if !(drun clang --version 2>&1 | grep -qF "clang version $CLANG_VERSION"); then
     echo "CLANG_VERSION=$CLANG_VERSION, but:"
     drun clang --version
+    exit 1
+  fi
+fi
+
+if [ -n "$KATEX" ]; then
+  if !(drun katex --version); then
+    echo "KATEX=$KATEX, but:"
+    drun katex --version
     exit 1
   fi
 fi
