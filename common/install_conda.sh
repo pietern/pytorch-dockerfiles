@@ -82,7 +82,8 @@ if [ -n "$ANACONDA_PYTHON_VERSION" ]; then
 
   # Install some other packages
   # TODO: Why is scipy pinned
-  as_jenkins pip install -q pytest scipy==1.1.0 scikit-image librosa>=0.6.2 psutil
+  # numba is pinned because of https://github.com/numba/numba/issues/4368
+  as_jenkins pip install -q pytest scipy==1.1.0 scikit-image librosa>=0.6.2 psutil numba==0.43.0
 
   popd
 fi
