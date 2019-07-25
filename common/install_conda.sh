@@ -84,5 +84,5 @@ if [ -n "$ANACONDA_PYTHON_VERSION" ]; then
   # TODO: Why is scipy pinned
   as_jenkins pip install -q pytest scipy==1.1.0 scikit-image librosa>=0.6.2 psutil
 
-  popd /opt/conda
+  popd
 fi
