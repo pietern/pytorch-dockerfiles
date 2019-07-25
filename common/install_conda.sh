@@ -28,6 +28,8 @@ if [ -n "$ANACONDA_PYTHON_VERSION" ]; then
     # NB: unsetting the environment variables works around a conda bug
     # https://github.com/conda/conda/issues/6576
     # NB: Pass on PATH and LD_LIBRARY_PATH to sudo invocation
+    # NB: This must be run from a directory that jenkins has access to,
+    # works around https://github.com/conda/conda-package-handling/pull/34
     sudo -H -u jenkins env -u SUDO_UID -u SUDO_GID -u SUDO_COMMAND -u SUDO_USER env "PATH=$PATH" "LD_LIBRARY_PATH=$LD_LIBRARY_PATH" $*
   }
 
@@ -42,6 +44,9 @@ if [ -n "$ANACONDA_PYTHON_VERSION" ]; then
   #ldconfig
   sed -e 's|PATH="\(.*\)"|PATH="/opt/conda/bin:\1"|g' -i /etc/environment
   export PATH="/opt/conda/bin:$PATH"
+
+  # Ensure we run conda in a directory that jenkins has write access to
+  pushd /opt/conda
 
   # Track latest conda update
   as_jenkins conda update -n base conda
@@ -78,4 +83,6 @@ if [ -n "$ANACONDA_PYTHON_VERSION" ]; then
   # Install some other packages
   # TODO: Why is scipy pinned
   as_jenkins pip install -q pytest scipy==1.1.0 scikit-image librosa>=0.6.2 psutil
+
+  popd /opt/conda
 fi
