@@ -32,6 +32,8 @@ apt-get install -y --no-install-recommends \
   libyaml-dev \
   libz-dev \
   libjpeg-dev \
+  libasound2-dev \
+  libsndfile-dev \
   python \
   python-dev \
   python-setuptools \
