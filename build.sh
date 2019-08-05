@@ -130,6 +130,15 @@ case "$image" in
     DB=yes
     VISION=yes
     ;;
+  pytorch-linux-xenial-cuda10.1-cudnn7-py3-gcc7)
+    CUDA_VERSION=10.1
+    CUDNN_VERSION=7
+    ANACONDA_PYTHON_VERSION=3.6
+    GCC_VERSION=7
+    PROTOBUF=yes
+    DB=yes
+    VISION=yes
+    ;;
   pytorch-linux-xenial-py3-clang5-asan)
     ANACONDA_PYTHON_VERSION=3.6
     CLANG_VERSION=5.0
