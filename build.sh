@@ -29,50 +29,50 @@ fi
 # configuration, so we hardcode everything here rather than do it
 # from scratch
 case "$image" in
-  pytorch-linux-trusty-py2.7.9)
+  pytorch-linux-xenial-py2.7.9)
     TRAVIS_PYTHON_VERSION=2.7.9
     GCC_VERSION=7
     # Do not install PROTOBUF, DB, and VISION as a test
     ;;
-  pytorch-linux-trusty-py2.7)
+  pytorch-linux-xenial-py2.7)
     TRAVIS_PYTHON_VERSION=2.7
     GCC_VERSION=7
     PROTOBUF=yes
     DB=yes
     VISION=yes
     ;;
-  pytorch-linux-trusty-py3.5)
+  pytorch-linux-xenial-py3.5)
     TRAVIS_PYTHON_VERSION=3.5
     GCC_VERSION=7
     # Do not install PROTOBUF, DB, and VISION as a test
     ;;
-  pytorch-linux-trusty-py3.6-gcc4.8)
+  pytorch-linux-xenial-py3.6-gcc4.8)
     ANACONDA_PYTHON_VERSION=3.6
     GCC_VERSION=4.8
     PROTOBUF=yes
     DB=yes
     VISION=yes
     ;;
-  pytorch-linux-trusty-py3.6-gcc5.4)
+  pytorch-linux-xenial-py3.6-gcc5.4)
     ANACONDA_PYTHON_VERSION=3.6
     GCC_VERSION=5
     PROTOBUF=yes
     DB=yes
     VISION=yes
     ;;
-  pytorch-linux-trusty-py3.6-gcc7.2)
+  pytorch-linux-xenial-py3.6-gcc7.2)
     ANACONDA_PYTHON_VERSION=3.6
     GCC_VERSION=7
     # Do not install PROTOBUF, DB, and VISION as a test
     ;;
-  pytorch-linux-trusty-py3.6-gcc7)
+  pytorch-linux-xenial-py3.6-gcc7)
     ANACONDA_PYTHON_VERSION=3.6
     GCC_VERSION=7
     PROTOBUF=yes
     DB=yes
     VISION=yes
     ;;
-  pytorch-linux-trusty-pynightly)
+  pytorch-linux-xenial-pynightly)
     TRAVIS_PYTHON_VERSION=nightly
     GCC_VERSION=7
     PROTOBUF=yes
