@@ -156,7 +156,7 @@ case "$image" in
     ;;
   pytorch-linux-xenial-py3.6-clang7)
     ANACONDA_PYTHON_VERSION=3.6
-    CLANG_VERSION=7.0
+    CLANG_VERSION=7
     PROTOBUF=yes
     DB=yes
     VISION=yes
