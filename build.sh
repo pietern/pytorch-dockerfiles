@@ -152,6 +152,7 @@ case "$image" in
     PROTOBUF=yes
     ANDROID=yes
     ANDROID_NDK_VERSION=r19c
+    GRADLE_VERSION=5.1.1
     CMAKE_VERSION=3.6.3
     ;;
   pytorch-linux-xenial-py3.6-clang7)
@@ -191,6 +192,7 @@ docker build \
        --build-arg "CUDNN_VERSION=${CUDNN_VERSION}" \
        --build-arg "ANDROID=${ANDROID}" \
        --build-arg "ANDROID_NDK=${ANDROID_NDK_VERSION}" \
+       --build-arg "GRADLE_VERSION=${GRADLE_VERSION}" \
        --build-arg "CMAKE_VERSION=${CMAKE_VERSION:-}" \
        --build-arg "KATEX=${KATEX:-}" \
        -f $(dirname ${DOCKERFILE})/Dockerfile \
