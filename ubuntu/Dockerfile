@@ -66,6 +66,7 @@ ENV INSTALLED_VISION ${VISION}
 # (optional) Install Android NDK
 ARG ANDROID
 ARG ANDROID_NDK
+ARG GRADLE_VERSION
 ADD ./common/install_android.sh install_android.sh
 RUN if [ -n "${ANDROID}" ]; then bash ./install_android.sh; fi
 RUN rm install_android.sh
