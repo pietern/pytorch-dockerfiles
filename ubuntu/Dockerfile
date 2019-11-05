@@ -68,8 +68,13 @@ ARG ANDROID
 ARG ANDROID_NDK
 ARG GRADLE_VERSION
 ADD ./common/install_android.sh install_android.sh
+ADD ./android/AndroidManifest.xml AndroidManifest.xml
+ADD ./android/build.gradle build.gradle
+ADD ./android/CMakeLists.txt CMakeLists.txt
 RUN if [ -n "${ANDROID}" ]; then bash ./install_android.sh; fi
 RUN rm install_android.sh
+RUN rm AndroidManifest.xml
+RUN rm build.gradle
 ENV INSTALLED_ANDROID ${ANDROID}
 
 # (optional) Install non-default CMake version
