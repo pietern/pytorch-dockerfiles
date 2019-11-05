@@ -23,12 +23,20 @@ elif [[ "$image" == *-xenial* ]]; then
   UBUNTU_VERSION=16.04
 elif [[ "$image" == *-artful* ]]; then
   UBUNTU_VERSION=17.10
+elif [[ "$image" == *-bionic* ]]; then
+  UBUNTU_VERSION=18.04
 fi
 
 # It's annoying to rename jobs every time you want to rewrite a
 # configuration, so we hardcode everything here rather than do it
 # from scratch
 case "$image" in
+  pytorch-linux-bionic-clang-9-thrift-llvm-dev)
+    CLANG_VERSION=9
+    THRIFT=yes
+    LLVMDEV=yes
+    PROTOBUF=yes
+    ;;
   pytorch-linux-xenial-py2.7.9)
     TRAVIS_PYTHON_VERSION=2.7.9
     GCC_VERSION=7
@@ -177,6 +185,8 @@ docker build \
        --no-cache \
        --build-arg "BUILD_ENVIRONMENT=${image}" \
        --build-arg "PROTOBUF=${PROTOBUF:-}" \
+       --build-arg "THRIFT=${THRIFT:-}" \
+       --build-arg "LLVMDEV=${LLVMDEV:-}" \
        --build-arg "DB=${DB:-}" \
        --build-arg "VISION=${VISION:-}" \
        --build-arg "EC2=${EC2:-}" \

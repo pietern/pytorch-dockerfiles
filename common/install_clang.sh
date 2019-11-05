@@ -9,10 +9,23 @@ if [ -n "$CLANG_VERSION" ]; then
     sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-7 main"
   fi
 
-  sudo apt-get update
+  if [[  "$CLANG_VERSION" == 9 && "$UBUNTU_VERSION" == 18.04 ]]; then
+    sudo apt-get install gpg-agent
+    wget --no-check-certificate -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add  -
+    apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-${CLANG_VERSION} main"
+  else
+      echo "Invalid Ubuntu version: ${UBUNTU_VERSION}"
+      exit 1
+  fi
 
+  sudo apt-get update
   apt-get install -y --no-install-recommends clang-"$CLANG_VERSION"
   apt-get install -y --no-install-recommends llvm-"$CLANG_VERSION"
+
+  # Install dev version of LLVM.
+  if [ -n "$LLVMDEV" ]; then
+    sudo apt-get install -y --no-install-recommends llvm-"$CLANG_VERSION"-dev
+  fi
 
   # Use update-alternatives to make this version the default
   # TODO: Decide if overriding gcc as well is a good idea
