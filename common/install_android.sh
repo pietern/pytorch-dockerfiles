@@ -4,6 +4,8 @@ set -ex
 
 [ -n "${ANDROID_NDK}" ]
 
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+
 apt-get update
 apt-get install -y --no-install-recommends autotools-dev autoconf unzip
 apt-get autoclean && apt-get clean
@@ -19,28 +21,6 @@ _versioned_dir=$(find "$_ndk_dir/" -mindepth 1 -maxdepth 1 -type d)
 mv "$_versioned_dir"/* "$_ndk_dir"/
 rmdir "$_versioned_dir"
 rm -rf /tmp/*
-
-# Install OpenJDK
-# https://hub.docker.com/r/picoded/ubuntu-openjdk-8-jdk/dockerfile/
-
-sudo apt-get update && \
-	apt-get install -y openjdk-8-jdk && \
-	apt-get install -y ant && \
-	apt-get clean && \
-	rm -rf /var/lib/apt/lists/* && \
-	rm -rf /var/cache/oracle-jdk8-installer;
-
-# Fix certificate issues, found as of
-# https://bugs.launchpad.net/ubuntu/+source/ca-certificates-java/+bug/983302
-
-sudo apt-get update && \
-	apt-get install -y ca-certificates-java && \
-	apt-get clean && \
-	update-ca-certificates -f && \
-	rm -rf /var/lib/apt/lists/* && \
-	rm -rf /var/cache/oracle-jdk8-installer;
-
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 
 # Installing android sdk
 # https://github.com/circleci/circleci-images/blob/staging/android/Dockerfile.m4
