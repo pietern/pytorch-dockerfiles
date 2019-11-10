@@ -9,6 +9,14 @@ else
   cmake3=cmake
 fi
 
+echo "Ubuntu versioni: $UBUNTU_VERSION"
+
+if [[ "$UBUNTU_VERSION" == "18.04" ]]; then
+  cmake3="cmake=3.10*"
+else
+  cmake3="${cmake3}=3.5\*"
+fi
+
 # Install common dependencies
 apt-get update
 # TODO: Some of these may not be necessary
@@ -18,7 +26,7 @@ numpy_deps="gfortran"
 apt-get install -y --no-install-recommends \
   $ccache_deps \
   $numpy_deps \
-  ${cmake3}=3.5\* \
+  ${cmake3} \
   apt-transport-https \
   autoconf \
   automake \
@@ -38,9 +46,11 @@ apt-get install -y --no-install-recommends \
   python-dev \
   python-setuptools \
   python-wheel \
+  python-pip \
   software-properties-common \
   sudo \
   wget \
+  gpg-agent \
   vim
 
 # Install Valgrind separately since the apt-get version is too old.
