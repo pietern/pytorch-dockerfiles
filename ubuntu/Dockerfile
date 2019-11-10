@@ -11,6 +11,19 @@ ARG EC2
 ADD ./common/install_base.sh install_base.sh
 RUN bash ./install_base.sh && rm install_base.sh
 
+# Install clang
+ARG CLANG_VERSION
+ARG LLVMDEV
+ADD ./common/install_clang.sh install_clang.sh
+RUN bash ./install_clang.sh && rm install_clang.sh
+
+# (optional) Install thrift.
+ARG THRIFT
+ADD ./common/install_thrift.sh install_thrift.sh
+RUN if [ -n "${THRIFT}" ]; then bash ./install_thrift.sh; fi
+RUN rm install_thrift.sh
+ENV INSTALLED_THRIFT ${THRIFT}
+
 # Install user
 ADD ./common/install_user.sh install_user.sh
 RUN bash ./install_user.sh && rm install_user.sh
@@ -25,11 +38,6 @@ ENV PATH /opt/conda/bin:$PATH
 ARG ANACONDA_PYTHON_VERSION
 ADD ./common/install_conda.sh install_conda.sh
 RUN bash ./install_conda.sh && rm install_conda.sh
-
-# Install clang
-ARG CLANG_VERSION
-ADD ./common/install_clang.sh install_clang.sh
-RUN bash ./install_clang.sh && rm install_clang.sh
 
 # Install gcc
 ARG GCC_VERSION
